@@ -149,13 +149,11 @@
     .chapter-block{margin-top:48px}
     .chapter-block .eyebrow{margin-bottom:8px}
 
-    /* Chart placeholder */
+    /* Chart preview */
     .chart-plate{padding:0;border:0;background:transparent}
-    .chart-plate--placeholder{padding:0;background:transparent}
-    .chart-figure-placeholder{margin:0}
-    .chart-figure-placeholder__frame{aspect-ratio:380/220;width:100%;min-height:180px;padding:24px;border-radius:12px;border:1px dashed var(--rule);background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center}
-    .chart-figure-placeholder__kicker{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
-    .chart-figure-placeholder__path code{font-size:11px;word-break:break-all;background:var(--white)}
+    .chart-figure{margin:0}
+    .chart-figure__frame{width:100%;min-height:220px;padding:20px;border:1px solid var(--rule);border-radius:12px;background:var(--white);display:grid;place-items:center}
+    .chart-figure__frame img{display:block;width:100%;height:auto;max-height:360px;object-fit:contain}
     .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
     /* ── COLOR SWATCHES ─── */
@@ -321,15 +319,13 @@
                   <p>Readers compare bar length first, then category labels, then exact values. Order and baseline matter more than decorative styling.</p>
                 </div>
               </div>
-              <div class="chart-plate chart-plate--placeholder">
-  <figure class="chart-figure-placeholder">
-    <div class="chart-figure-placeholder__frame" role="img" aria-labelledby="illust-ph-bar-chart">
-      <span id="illust-ph-bar-chart" class="visually-hidden">Bar Chart illustration — image to be added</span>
-      <span class="chart-figure-placeholder__kicker" aria-hidden="true">Image placeholder</span>
-      <span class="chart-figure-placeholder__path" aria-hidden="true"><code>../assets/chapter-previews/bar-chart.png</code></span>
-    </div>
-  </figure>
-</div>
+              <div class="chart-plate">
+                <figure class="chart-figure">
+                  <div class="chart-figure__frame">
+                    <img src="assets/Barchart.png" alt="Bar chart example showing categorical comparison with vertical bars.">
+                  </div>
+                </figure>
+              </div>
             </section>
 
             <section class="grid-2 chapter-block">
@@ -418,15 +414,13 @@
                   <p>Readers read the overall shape before individual values. Gaps, slopes, peaks, and thresholds should be honest and easy to inspect.</p>
                 </div>
               </div>
-              <div class="chart-plate chart-plate--placeholder">
-  <figure class="chart-figure-placeholder">
-    <div class="chart-figure-placeholder__frame" role="img" aria-labelledby="illust-ph-line-chart">
-      <span id="illust-ph-line-chart" class="visually-hidden">Line Chart illustration — image to be added</span>
-      <span class="chart-figure-placeholder__kicker" aria-hidden="true">Image placeholder</span>
-      <span class="chart-figure-placeholder__path" aria-hidden="true"><code>../assets/chapter-previews/line-chart.png</code></span>
-    </div>
-  </figure>
-</div>
+              <div class="chart-plate">
+                <figure class="chart-figure">
+                  <div class="chart-figure__frame">
+                    <img src="assets/LineChart.png" alt="Line chart example showing values changing across time.">
+                  </div>
+                </figure>
+              </div>
             </section>
 
             <section class="grid-2 chapter-block">
@@ -515,15 +509,13 @@
                   <p>Readers read the bars as the base quantity and the line as the contextual layer. The relationship must be intentional, otherwise the chart invents a story.</p>
                 </div>
               </div>
-              <div class="chart-plate chart-plate--placeholder">
-  <figure class="chart-figure-placeholder">
-    <div class="chart-figure-placeholder__frame" role="img" aria-labelledby="illust-ph-combo-chart">
-      <span id="illust-ph-combo-chart" class="visually-hidden">Combo Chart illustration — image to be added</span>
-      <span class="chart-figure-placeholder__kicker" aria-hidden="true">Image placeholder</span>
-      <span class="chart-figure-placeholder__path" aria-hidden="true"><code>../assets/chapter-previews/combo-chart.png</code></span>
-    </div>
-  </figure>
-</div>
+              <div class="chart-plate">
+                <figure class="chart-figure">
+                  <div class="chart-figure__frame">
+                    <img src="assets/CombinationChart.png" alt="Combination chart example with bars and a line on one plot.">
+                  </div>
+                </figure>
+              </div>
             </section>
 
             <section class="grid-2 chapter-block">
@@ -612,15 +604,13 @@
                   <p>Readers read the dominant segment, then the center value or legend. Donuts are weak for precise comparisons, so the story must be broad composition.</p>
                 </div>
               </div>
-              <div class="chart-plate chart-plate--placeholder">
-  <figure class="chart-figure-placeholder">
-    <div class="chart-figure-placeholder__frame" role="img" aria-labelledby="illust-ph-donut-chart">
-      <span id="illust-ph-donut-chart" class="visually-hidden">Donut Chart illustration — image to be added</span>
-      <span class="chart-figure-placeholder__kicker" aria-hidden="true">Image placeholder</span>
-      <span class="chart-figure-placeholder__path" aria-hidden="true"><code>../assets/chapter-previews/donut-chart.png</code></span>
-    </div>
-  </figure>
-</div>
+              <div class="chart-plate">
+                <figure class="chart-figure">
+                  <div class="chart-figure__frame">
+                    <img src="assets/DonutChart.png" alt="Donut chart example showing parts of a whole.">
+                  </div>
+                </figure>
+              </div>
             </section>
 
             <section class="grid-2 chapter-block">
@@ -709,15 +699,13 @@
                   <p>Readers read the center value first, then where the arc sits between min and max. The range must be meaningful.</p>
                 </div>
               </div>
-              <div class="chart-plate chart-plate--placeholder">
-  <figure class="chart-figure-placeholder">
-    <div class="chart-figure-placeholder__frame" role="img" aria-labelledby="illust-ph-half-donut-chart">
-      <span id="illust-ph-half-donut-chart" class="visually-hidden">Half Donut Chart illustration — image to be added</span>
-      <span class="chart-figure-placeholder__kicker" aria-hidden="true">Image placeholder</span>
-      <span class="chart-figure-placeholder__path" aria-hidden="true"><code>../assets/chapter-previews/half-donut-chart.png</code></span>
-    </div>
-  </figure>
-</div>
+              <div class="chart-plate">
+                <figure class="chart-figure">
+                  <div class="chart-figure__frame">
+                    <img src="assets/HalfDonutChart.png" alt="Half donut chart example showing progress across a semicircle.">
+                  </div>
+                </figure>
+              </div>
             </section>
 
             <section class="grid-2 chapter-block">
@@ -806,15 +794,13 @@
                   <p>Readers read the overall distribution shape first, then bin labels. If bins are unclear, the chart becomes misleading even if it looks polished.</p>
                 </div>
               </div>
-              <div class="chart-plate chart-plate--placeholder">
-  <figure class="chart-figure-placeholder">
-    <div class="chart-figure-placeholder__frame" role="img" aria-labelledby="illust-ph-histogram-chart">
-      <span id="illust-ph-histogram-chart" class="visually-hidden">Histogram Chart illustration — image to be added</span>
-      <span class="chart-figure-placeholder__kicker" aria-hidden="true">Image placeholder</span>
-      <span class="chart-figure-placeholder__path" aria-hidden="true"><code>../assets/chapter-previews/histogram-chart.png</code></span>
-    </div>
-  </figure>
-</div>
+              <div class="chart-plate">
+                <figure class="chart-figure">
+                  <div class="chart-figure__frame">
+                    <img src="assets/HistogramChart.png" alt="Histogram example showing a distribution grouped into bins.">
+                  </div>
+                </figure>
+              </div>
             </section>
 
             <section class="grid-2 chapter-block">
@@ -903,15 +889,13 @@
                   <p>Readers read geography first and quantity second. This chart is useful only when where something happens matters to the decision.</p>
                 </div>
               </div>
-              <div class="chart-plate chart-plate--placeholder">
-  <figure class="chart-figure-placeholder">
-    <div class="chart-figure-placeholder__frame" role="img" aria-labelledby="illust-ph-map-bubble-chart">
-      <span id="illust-ph-map-bubble-chart" class="visually-hidden">Map Bubble Chart illustration — image to be added</span>
-      <span class="chart-figure-placeholder__kicker" aria-hidden="true">Image placeholder</span>
-      <span class="chart-figure-placeholder__path" aria-hidden="true"><code>../assets/chapter-previews/map-bubble-chart.png</code></span>
-    </div>
-  </figure>
-</div>
+              <div class="chart-plate">
+                <figure class="chart-figure">
+                  <div class="chart-figure__frame">
+                    <img src="assets/MapBubbleChart.png" alt="Map bubble chart example showing location-based values with circles.">
+                  </div>
+                </figure>
+              </div>
             </section>
 
             <section class="grid-2 chapter-block">
@@ -1000,15 +984,13 @@
                   <p>Readers read the pointer position and band meaning together. The band labels are as important as the value.</p>
                 </div>
               </div>
-              <div class="chart-plate chart-plate--placeholder">
-  <figure class="chart-figure-placeholder">
-    <div class="chart-figure-placeholder__frame" role="img" aria-labelledby="illust-ph-pointer-scale-chart">
-      <span id="illust-ph-pointer-scale-chart" class="visually-hidden">Pointer Scale illustration — image to be added</span>
-      <span class="chart-figure-placeholder__kicker" aria-hidden="true">Image placeholder</span>
-      <span class="chart-figure-placeholder__path" aria-hidden="true"><code>../assets/chapter-previews/pointer-scale-chart.png</code></span>
-    </div>
-  </figure>
-</div>
+              <div class="chart-plate">
+                <figure class="chart-figure">
+                  <div class="chart-figure__frame">
+                    <img src="assets/PointerChart.png" alt="Pointer scale chart example showing a value on a gauge-like scale.">
+                  </div>
+                </figure>
+              </div>
             </section>
 
             <section class="grid-2 chapter-block">
@@ -1097,15 +1079,13 @@
                   <p>Readers follow ribbon width from source to target. If there are too many nodes, the diagram turns into a puzzle instead of an explanation.</p>
                 </div>
               </div>
-              <div class="chart-plate chart-plate--placeholder">
-  <figure class="chart-figure-placeholder">
-    <div class="chart-figure-placeholder__frame" role="img" aria-labelledby="illust-ph-sankey-chart">
-      <span id="illust-ph-sankey-chart" class="visually-hidden">Sankey Chart illustration — image to be added</span>
-      <span class="chart-figure-placeholder__kicker" aria-hidden="true">Image placeholder</span>
-      <span class="chart-figure-placeholder__path" aria-hidden="true"><code>../assets/chapter-previews/sankey-chart.png</code></span>
-    </div>
-  </figure>
-</div>
+              <div class="chart-plate">
+                <figure class="chart-figure">
+                  <div class="chart-figure__frame">
+                    <img src="assets/SankeyChart.png" alt="Sankey chart example showing flow between stages.">
+                  </div>
+                </figure>
+              </div>
             </section>
 
             <section class="grid-2 chapter-block">
@@ -1194,15 +1174,13 @@
                   <p>Readers use a sparkline as a quick directional cue. It answers “what has been happening?” but not “what exactly happened at each point?”</p>
                 </div>
               </div>
-              <div class="chart-plate chart-plate--placeholder">
-  <figure class="chart-figure-placeholder">
-    <div class="chart-figure-placeholder__frame" role="img" aria-labelledby="illust-ph-sparkline-chart">
-      <span id="illust-ph-sparkline-chart" class="visually-hidden">Sparkline illustration — image to be added</span>
-      <span class="chart-figure-placeholder__kicker" aria-hidden="true">Image placeholder</span>
-      <span class="chart-figure-placeholder__path" aria-hidden="true"><code>../assets/chapter-previews/sparkline-chart.png</code></span>
-    </div>
-  </figure>
-</div>
+              <div class="chart-plate">
+                <figure class="chart-figure">
+                  <div class="chart-figure__frame">
+                    <img src="assets/Sparkline.png" alt="Sparkline example showing a compact trend line.">
+                  </div>
+                </figure>
+              </div>
             </section>
 
             <section class="grid-2 chapter-block">
