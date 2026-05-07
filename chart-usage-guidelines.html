@@ -1,0 +1,1280 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <title>Chart Usage Guidelines | @atulya_26/charting-library</title>
+  <meta name="description" content="Designer-first chart usage guidelines for @atulya_26/charting-library.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --primary:#053BEE;--primary-dark:#032CB8;--primary-mid:#2050F0;--primary-light:#E8EDFF;--primary-subtle:#F2F5FF;
+      --accent:#EB5324;--accent-light:#FFF0EB;
+      --ink:#000A1B;--ink-2:#1A1F2E;--ink-muted:#666666;--ink-faint:#999999;
+      --rule:#CCCCCC;--sidebar-rule:#DCDCDC;--surface:#F5F7FA;--white:#FFFFFF;--dark-bg-text:#F2F5FF;
+      --green:#05604F;--green-light:#EDFAF4;--green-dark:#044A3D;--green-mid:#2DBD74;
+      --red:#D93520;--red-light:#FEF2F0;--red-dark:#7A2716;
+      --font-body:'DM Sans',sans-serif;--font-display:'Lora',serif;
+      --max:1100px;--wide:1280px;--radius-sm:6px;--radius-md:8px;--radius-lg:12px;
+      color-scheme:light
+    }
+    html{scroll-behavior:smooth}
+    @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+    body{margin:0;background:var(--white);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+    a{color:inherit;text-decoration-color:currentColor;text-underline-offset:.18em}
+    .skip-link{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+    .skip-link:focus{position:fixed;left:16px;top:16px;z-index:100;width:auto;height:auto;padding:12px 18px;background:var(--ink);color:#fff;font-weight:600;border-radius:8px;outline:2px solid var(--primary);outline-offset:3px}
+    main{overflow:visible}
+    section[id]{scroll-margin-top:76px}
+
+    h1,h2,h3,p{margin-top:0}
+    h1{font-family:var(--font-display);max-width:1050px;margin-bottom:32px;font-size:clamp(52px,8vw,96px);line-height:1.0;font-weight:600;letter-spacing:-0.02em;text-wrap:balance;color:var(--white)}
+    h2{font-family:var(--font-display);margin-bottom:24px;font-size:clamp(32px,4vw,48px);line-height:1.1;font-weight:600;letter-spacing:-0.02em;text-wrap:balance;color:var(--ink)}
+    h3{font-family:var(--font-body);margin-bottom:12px;font-size:20px;line-height:1.3;font-weight:600;letter-spacing:-0.01em;color:var(--ink);text-wrap:balance}
+    p{color:var(--ink-muted);font-size:17px;line-height:1.75;margin-bottom:20px;max-width:680px;text-wrap:pretty}
+    p strong{color:var(--ink);font-weight:500}
+    code{padding:1px 6px;border:1px solid var(--rule);border-radius:5px;background:var(--surface);font-family:"JetBrains Mono","Fira Code",ui-monospace,monospace;font-size:.88em;color:var(--ink)}
+
+    /* ── SECTIONS / LAYOUT ─── */
+    .section{border-bottom:1px solid var(--rule)}
+    .section:nth-of-type(even){background:var(--surface)}
+    .inner{width:min(100% - 32px,var(--max));margin:0 auto;padding:96px 0}
+    .inner-wide{width:min(100% - 32px,var(--wide))}
+
+    .eyebrow{margin:0 0 16px;color:var(--accent);font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase}
+    .label{margin:0 0 12px;color:var(--ink-faint);font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase}
+    .lede{max-width:680px;color:var(--ink-muted);font-size:18px;line-height:1.6;font-weight:400;margin-bottom:20px}
+
+    /* ── NAV ─── */
+    .top-nav{position:sticky;top:0;z-index:30;border-bottom:1px solid var(--rule);background:var(--white)}
+    .top-nav .inner{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:0;height:56px}
+    .brand{font-family:var(--font-body);font-weight:600;text-decoration:none;white-space:nowrap;font-size:13px;color:var(--ink);letter-spacing:-0.005em}
+    .brand:hover{color:var(--primary)}
+    .nav-links{display:flex;gap:32px;overflow-x:auto;white-space:nowrap}
+    .nav-links a{display:inline-flex;align-items:center;min-height:40px;padding:0;color:var(--ink-muted);font-size:13px;font-weight:400;text-decoration:none;transition:color .15s ease}
+    .nav-links a:hover{color:var(--primary)}
+    .nav-links a:focus-visible{outline:2px solid var(--primary);outline-offset:3px;border-radius:4px}
+
+    /* ── HERO / COVER ─── */
+    .hero{background:var(--primary);position:relative;overflow:hidden;border-bottom:0}
+    .hero::before{content:'';position:absolute;top:-60px;right:-80px;width:480px;height:480px;border-radius:50%;border:1px solid rgba(255,255,255,0.08);pointer-events:none}
+    .hero::after{content:'';position:absolute;bottom:-100px;right:80px;width:320px;height:320px;border-radius:50%;border:1px solid rgba(255,255,255,0.06);pointer-events:none}
+    .hero .inner{position:relative;z-index:1;padding:120px 0 96px}
+    .hero .eyebrow{color:rgba(255,255,255,0.5)}
+    .hero .lede{color:var(--dark-bg-text);font-weight:300;max-width:560px;font-size:18px}
+
+    /* ── META GRID (cover meta) ─── */
+    .meta-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:64px;border:0;border-top:1px solid rgba(255,255,255,0.12);border-radius:0;overflow:visible;background:transparent;padding-top:32px}
+    .meta-row{padding:0 32px 0 0;border-right:0;background:transparent}
+    .meta-row dt{margin-bottom:6px;color:rgba(255,255,255,0.4);font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase}
+    .meta-row dd{margin:0;color:rgba(255,255,255,0.85);font-size:14px;font-weight:400}
+    .meta-row dd code{background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.12);color:var(--dark-bg-text)}
+
+    /* ── CHART INDEX (CARD GRID) ─── */
+    .chart-index{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-top:32px}
+    .chart-toolbar{margin-bottom:24px;padding:20px 24px;border:1px solid var(--rule);border-radius:12px;background:var(--white)}
+    .chart-toolbar label{display:block;margin-bottom:8px;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
+    .chart-toolbar input[type="search"]{width:100%;max-width:420px;min-height:44px;padding:10px 14px;border:1px solid var(--rule);border-radius:8px;font:inherit;font-size:15px;background:var(--white);color:var(--ink);transition:border-color .15s ease}
+    .chart-toolbar input:focus-visible{outline:none;border-color:var(--primary)}
+    .filter-status{margin:8px 0 0;font-size:13px;color:var(--ink-faint)}
+
+    .chart-card[hidden]{display:none!important}
+    .chart-card{display:block;min-height:150px;padding:24px;border:1px solid var(--rule);border-radius:12px;background:var(--white);text-decoration:none;color:inherit;transition:border-color .2s ease}
+    .chart-card:hover{border-color:var(--primary)}
+    .chart-card:focus-visible{outline:2px solid var(--primary);outline-offset:3px}
+    .chart-card__top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:16px}
+    .chart-card__top span{display:grid;place-items:center;width:28px;height:28px;border-radius:999px;background:var(--primary);color:var(--white);font-size:11px;font-weight:600;letter-spacing:.04em}
+    .chart-card__top code{background:transparent;border:0;padding:0;color:var(--ink-faint);font-size:12px}
+    .chart-card strong{display:block;margin-bottom:6px;font-size:17px;font-weight:600;color:var(--ink);letter-spacing:-0.005em}
+    .chart-card p{margin-bottom:0;font-size:14px;color:var(--ink-muted);line-height:1.55;max-width:none}
+
+    /* ── GRIDS ─── */
+    .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+
+    /* ── PANELS / CALLOUTS ─── */
+    .panel{padding:32px;border:1px solid var(--rule);border-radius:12px;background:var(--white)}
+    .panel ul,.panel ol{margin:0;padding-left:18px;color:var(--ink-muted)}
+    .panel li{margin-bottom:8px;font-size:15px;line-height:1.65}
+    .panel p{margin-bottom:0;font-size:15px;max-width:none}
+
+    .callout{padding:20px 24px;border-left:3px solid var(--primary);border-radius:0 8px 8px 0;background:var(--primary-subtle);border-top:0;border-right:0;border-bottom:0}
+    .callout p{font-size:15px;color:var(--primary-dark);margin:0;max-width:none;font-style:italic;line-height:1.65}
+    .callout .label{color:var(--primary);margin-bottom:8px;font-style:normal}
+    .callout ul{margin:0;padding-left:18px;color:var(--primary-dark)}
+    .callout li{margin-bottom:6px;font-size:14px}
+
+    .verdict-do{border:1px solid transparent;border-left:3px solid var(--green-mid);background:var(--green-light);border-radius:0 8px 8px 0;padding:24px 28px}
+    .verdict-do .label{color:var(--green-mid)}
+    .verdict-do ul,.verdict-do li,.verdict-do p{color:var(--green-dark)}
+    .verdict-do li{font-size:14px;line-height:1.6}
+
+    .verdict-dont{border:1px solid transparent;border-left:3px solid var(--red);background:var(--red-light);border-radius:0 8px 8px 0;padding:24px 28px}
+    .verdict-dont .label{color:var(--red)}
+    .verdict-dont ul,.verdict-dont li,.verdict-dont p{color:var(--red-dark)}
+    .verdict-dont li{font-size:14px;line-height:1.6}
+
+    /* ── DATA TABLE (rebuilt as editorial table) ─── */
+    .data-table{overflow:auto;border:1px solid var(--rule);border-radius:12px;background:var(--white);margin:8px 0 16px}
+    .data-row{display:grid;grid-template-columns:var(--table-cols,minmax(180px,.72fr) minmax(260px,1fr) minmax(260px,1fr));min-width:760px;border-bottom:1px solid var(--rule)}
+    .data-row:last-child{border-bottom:0}
+    .data-row>div{padding:16px 20px;border-right:1px solid var(--rule);color:var(--ink-muted);font-size:14px;line-height:1.6}
+    .data-row>div:last-child{border-right:0}
+    .data-row.header>div{background:var(--primary);color:rgba(255,255,255,0.85);font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;border-right-color:rgba(255,255,255,0.15)}
+    .data-row:not(.header)>div:first-child{font-weight:500;color:var(--ink)}
+    .data-row:not(.header):nth-of-type(even){background:var(--surface)}
+    .data-table a{color:var(--primary);text-decoration:none;font-weight:500}
+    .data-table a:hover{text-decoration:underline}
+
+    /* ── CHAPTERS ─── */
+    .chapter{border-bottom:1px solid var(--rule);scroll-margin-top:74px}
+    .chapter:nth-of-type(even){background:var(--surface)}
+    .chapter-shell{width:min(100% - 32px,var(--wide));margin:0 auto;display:grid;grid-template-columns:260px minmax(0,1fr);gap:56px;padding:96px 0}
+    .chapter-side{position:sticky;top:86px;align-self:start}
+    .chapter-number{display:grid;place-items:center;width:42px;height:42px;margin-bottom:20px;border-radius:50%;background:var(--primary);color:var(--white);font-weight:600;font-size:14px;font-variant-numeric:tabular-nums}
+    .chapter-side h2{font-size:clamp(28px,3.2vw,40px);margin-bottom:12px}
+    .chapter-side .eyebrow{margin-bottom:8px}
+    .chapter-side p{font-size:14px;color:var(--ink-muted);margin-bottom:0}
+    .chapter-links{display:grid;gap:0;margin-top:24px;border-top:1px solid var(--rule)}
+    .chapter-links a{display:flex;align-items:center;min-height:40px;padding:10px 0;border-bottom:1px solid var(--rule);color:var(--ink-muted);font-size:13px;font-weight:400;text-decoration:none;transition:color .15s ease}
+    .chapter-links a:hover{color:var(--primary)}
+    .chapter-links a:focus-visible{outline:2px solid var(--primary);outline-offset:3px}
+    .chapter-main{min-width:0}
+    .chapter-panel{padding:0;border:0;background:transparent;border-radius:0}
+    .chapter-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,.58fr);gap:40px;align-items:center}
+    .chapter-block{margin-top:48px}
+    .chapter-block .eyebrow{margin-bottom:8px}
+
+    /* Chart placeholder */
+    .chart-plate{padding:0;border:0;background:transparent}
+    .chart-plate--placeholder{padding:0;background:transparent}
+    .chart-figure-placeholder{margin:0}
+    .chart-figure-placeholder__frame{aspect-ratio:380/220;width:100%;min-height:180px;padding:24px;border-radius:12px;border:1px dashed var(--rule);background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center}
+    .chart-figure-placeholder__kicker{font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint)}
+    .chart-figure-placeholder__path code{font-size:11px;word-break:break-all;background:var(--white)}
+    .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+    /* ── COLOR SWATCHES ─── */
+    .swatches{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-top:24px;margin-bottom:24px}
+    .swatch{padding:16px;border:1px solid var(--rule);border-radius:10px;background:var(--white)}
+    .swatch span{display:block;height:48px;margin-bottom:12px;border-radius:6px;background:var(--c)}
+    .swatch strong{display:block;font-size:13px;font-weight:600;color:var(--ink);margin-bottom:2px}
+    .swatch code{font-size:11px;background:transparent;border:0;padding:0;color:var(--ink-faint)}
+
+    /* ── CODE BLOCK (dark utility surface — kept dark for code legibility) ─── */
+    .code-block{overflow:auto;border:1px solid var(--ink);border-radius:12px;background:var(--ink);margin:8px 0 16px}
+    pre{margin:0;padding:20px 24px;color:var(--dark-bg-text);font-family:"JetBrains Mono","Fira Code",ui-monospace,monospace;font-size:13px;line-height:1.7;white-space:pre-wrap}
+
+    /* ── FOOTER ─── */
+    .footer{color:var(--ink-faint);font-size:14px;border-top:1px solid var(--rule);padding-top:48px;padding-bottom:64px;max-width:none}
+    .footer code{background:var(--surface)}
+
+    /* ── RESPONSIVE ─── */
+    @media (max-width:1050px){
+      .chapter-hero,.grid-2,.grid-3{grid-template-columns:1fr}
+      .chart-index{grid-template-columns:repeat(2,1fr)}
+      .chapter-shell{grid-template-columns:1fr;gap:32px;padding:64px 0}
+      .chapter-side{position:static}
+      .chapter-links{display:flex;flex-wrap:wrap;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+      .chapter-links a{padding:8px 16px 8px 0;border-bottom:0}
+      .meta-grid{grid-template-columns:repeat(2,1fr);gap:24px 0}
+      .swatches{grid-template-columns:repeat(3,1fr)}
+    }
+    @media (max-width:768px){
+      .inner{width:min(100% - 24px,var(--max));padding:64px 0}
+      .top-nav{padding:0 20px}
+      .top-nav .inner{padding:0;width:100%}
+      .nav-links{display:none}
+      .brand{font-size:13px}
+      .hero .inner{padding:80px 0 64px}
+      h1{font-size:clamp(40px,10vw,64px)}
+      .lede{font-size:17px}
+      .chart-index,.meta-grid,.swatches{grid-template-columns:1fr}
+      .chapter-shell{width:min(100% - 24px,var(--wide));padding:56px 0}
+      .data-table{display:block;overflow-x:auto}
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <nav class="top-nav" aria-label="Chart guideline navigation">
+    <div class="inner inner-wide">
+      <a class="brand" href="#home" aria-label="Innovaccer">
+        <svg width="120" height="20" viewBox="0 0 400 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;height:20px;width:auto">
+          <path d="M386.443 24.5785C387.034 24.7097 387.363 24.1194 387.576 23.6438C389.627 18.9867 391.597 16.527 400 16.527V26.7595C390.415 26.0872 387.313 29.6128 387.313 38.5335V52.1605H376.744V17.0681H387.313V18.6587C387.313 19.8558 386.919 21.0529 386.394 22.1188C385.869 23.1847 385.475 24.3818 386.46 24.5785H386.443Z" fill="#000A1B"/>
+          <path d="M373.973 32.9271C373.973 33.8946 373.907 35.6001 373.776 36.5676H348.123C348.862 40.9295 351.882 43.8484 356.362 43.8484C359.71 43.8484 361.778 42.225 362.665 39.6832H373.316C371.905 46.177 366.423 52.1624 356.444 52.1624C344.119 52.1624 337.554 44.0944 337.554 33.9602C337.554 23.3013 344.381 15.7581 356.247 15.7581C365.225 15.7581 374.005 21.0875 374.005 32.9271H373.973ZM356.428 23.8261C351.34 23.8261 349.19 26.6138 348.386 30.3198H363.452C363.042 26.1546 360.367 23.8261 356.411 23.8261H356.428Z" fill="#000A1B"/>
+          <path d="M189.794 17.3192H201.003L207.273 39.7686C207.601 41.0148 207.732 42.9334 207.732 44.4585C207.732 45.1144 207.864 45.9179 208.783 45.9179C209.702 45.9179 209.833 45.1308 209.833 44.4585C209.833 42.9334 209.964 41.0312 210.293 39.7686L216.562 17.3192H227.772L216.168 52.1821H201.397L189.794 17.3192Z" fill="#000A1B"/>
+          <path d="M226.675 41.9626C226.675 34.2226 232.896 31.3693 240.413 30.9101C246.616 30.5166 251.048 30.9101 250.982 27.9912C250.916 26.0398 249.85 23.5637 245.041 23.5637C240.232 23.5637 238.689 25.6463 238.164 28.2372H227.726C228.908 19.0705 237.508 15.7581 245.303 15.7581C253.559 15.7581 261.552 18.3654 261.552 32.14V51.1293H250.982V49.3747C250.982 48.3416 251.245 47.4233 251.704 46.5214C252.229 45.4227 252.82 44.3732 252.098 44.0452C251.245 43.6516 250.982 44.4388 250.703 44.8979C248.52 49.1287 244.63 52.1788 238.804 52.1788C231.73 52.1788 226.643 47.6856 226.643 41.979L226.675 41.9626ZM250.998 34.485C249.275 36.2396 246.83 36.3708 241.873 36.9611C239.428 37.2235 237.245 38.3222 237.245 41.2575C237.245 44.1928 240.019 45.3571 242.858 44.8979C246.026 44.3732 250.916 41.5855 250.982 34.5014L250.998 34.485Z" fill="#000A1B"/>
+          <path d="M172.347 15.7581C183.672 15.7581 190.565 23.9572 190.565 33.9602C190.565 43.9632 183.672 52.1624 172.347 52.1624C161.023 52.1624 154.13 43.9632 154.13 33.9602C154.13 23.9572 161.023 15.7581 172.347 15.7581ZM172.347 43.3237C177.484 43.3237 180.16 39.0273 180.16 33.9602C180.16 28.8931 177.501 24.5968 172.347 24.5968C167.194 24.5968 164.535 28.8931 164.535 33.9602C164.535 39.0273 167.21 43.3237 172.347 43.3237Z" fill="#000A1B"/>
+          <path d="M138.464 15.7581C145.997 15.7581 151.019 20.7104 151.019 30.7462V52.1624H140.449V35.0261C140.449 27.0565 138.661 24.8592 134.902 24.8592C130.602 24.8592 126.712 30.4182 126.712 38.5846V52.1624H116.143V16.8404H126.712V18.513C126.712 20.12 126.384 21.2515 125.859 22.3338C125.334 23.3997 124.677 24.7444 125.531 25.0723C126.319 25.4003 126.647 24.5968 126.926 24.072C128.583 20.53 132.473 15.7745 138.496 15.7745L138.464 15.7581Z" fill="#000A1B"/>
+          <path d="M99.7033 15.7581C107.236 15.7581 112.259 20.7104 112.259 30.7462V52.1624H101.689V35.0261C101.689 27.0565 99.9002 24.8592 96.1418 24.8592C91.8418 24.8592 87.9521 30.4182 87.9521 38.5846V52.1624H77.3826V16.8404H87.9521V18.513C87.9521 20.12 87.6239 21.2515 87.0987 22.3338C86.5735 23.3997 85.917 24.7444 86.7704 25.0723C87.5582 25.4003 87.8865 24.5968 88.1655 24.072C89.8231 20.53 93.7128 15.7745 99.7361 15.7745L99.7033 15.7581Z" fill="#000A1B"/>
+          <path d="M62.6431 13.3195V4.92354H73.4916V13.3195H62.6431ZM62.6431 52.1671V17.5175H73.4916V52.1671H62.6431Z" fill="#000A1B"/>
+          <path d="M301.106 33.9602C301.106 23.9408 307.72 15.7581 319.324 15.7581C329.581 15.7581 335.49 22.9077 335.998 30.3854L325.872 30.451C325.298 27.2697 323.115 24.5968 319.389 24.5968C314.449 24.5968 311.364 28.8931 311.364 33.9602C311.364 39.0273 314.449 43.3237 319.389 43.3237C323.115 43.3237 325.298 40.5852 325.872 37.4039L335.998 37.4695C335.49 44.9471 329.647 52.1624 319.324 52.1624C307.901 52.1624 301.106 43.9632 301.106 33.9602Z" fill="#000A1B"/>
+          <path d="M264.518 33.9602C264.518 23.9408 271.132 15.7581 282.735 15.7581C292.993 15.7581 298.901 22.9077 299.41 30.3854L289.284 30.451C288.709 27.2697 286.526 24.5968 282.801 24.5968C277.861 24.5968 274.775 28.8931 274.775 33.9602C274.775 39.0273 277.861 43.3237 282.801 43.3237C286.526 43.3237 288.709 40.5852 289.284 37.4039L299.41 37.4695C298.901 44.9471 293.058 52.1624 282.735 52.1624C271.312 52.1624 264.518 43.9632 264.518 33.9602Z" fill="#000A1B"/>
+          <path d="M16.1322 36.1344L0 63.8465L32.0827 63.9456L16.1322 36.1344Z" fill="#000A1B"/>
+          <path d="M16.1651 27.8111L32.2973 0.0990895L0.214682 0L16.1651 27.8111Z" fill="#000A1B"/>
+          <path d="M19.7685 29.8921L51.8512 30.0077L35.9008 2.19661L19.7685 29.8921Z" fill="#000A1B"/>
+          <path d="M19.7524 34.0701L35.7028 61.8812L51.8351 34.1692L19.7524 34.0701Z" fill="#000A1B"/>
+        </svg>
+      </a>
+      <div class="nav-links">
+        <a href="#home">Home</a><a href="#choose">Choose</a><a href="#chart-index">Charts</a><a href="#color-system">Color</a><a href="#handoff">Handoff</a>
+      </div>
+    </div>
+  </nav>
+  <main id="main">
+    <section class="section hero" id="home">
+      <div class="inner inner-wide">
+        <p class="eyebrow">Designer guide - React charting package</p>
+        <h1>Chart usage guidelines for product designers</h1>
+        <p class="lede">A single-page guide that behaves like a small documentation site: start from the decision flow, jump to a chart chapter, and use the chapter sections to understand the story, variants, mistakes, accessibility, and handoff needs.</p>
+        <dl class="meta-grid">
+          <div class="meta-row"><dt>Package</dt><dd><code>@atulya_26/charting-library</code></dd></div>
+          <div class="meta-row"><dt>Shape</dt><dd>Home + chart chapters</dd></div>
+          <div class="meta-row"><dt>Primary user</dt><dd>Product designer</dd></div>
+          <div class="meta-row"><dt>Purpose</dt><dd>Chart choice + handoff</dd></div>
+        </dl>
+      </div>
+    </section>
+    <section class="section" id="choose"><div class="inner"><p class="eyebrow">Decision flow</p><h2>Start with the story, not the shape</h2><p class="lede">If the guide feels crowded, use this table as the first path. It turns the page from a long article into a decision map.</p><div class="data-table" style="--table-cols:minmax(180px,.72fr) minmax(260px,1fr) minmax(260px,1fr)">
+    <div class="data-row header"><div>If the story is...</div><div>Start with...</div><div>Why</div></div>
+    <div class="data-row"><div>Comparing named categories</div><div><a href="#bar">Bar Chart</a></div><div>Length on a shared baseline is the clearest comparison encoding.</div></div><div class="data-row"><div>Movement over ordered points</div><div><a href="#line">Line Chart</a> or <a href="#sparkline">Sparkline</a></div><div>Line shape communicates trend, slope, and volatility.</div></div><div class="data-row"><div>Two related metrics together</div><div><a href="#combo">Combo Chart</a></div><div>Bars show quantity while the line adds rate, target, or benchmark context.</div></div><div class="data-row"><div>Composition of a whole</div><div><a href="#donut">Donut Chart</a></div><div>Segments show approximate share when there are only a few parts.</div></div><div class="data-row"><div>One bounded value</div><div><a href="#half-donut">Half Donut</a> or <a href="#pointer-scale">Pointer Scale</a></div><div>Gauge forms work when min, max, and range meaning are clear.</div></div><div class="data-row"><div>Distribution across ranges</div><div><a href="#histogram">Histogram</a></div><div>Bins reveal spread, clustering, skew, and outliers.</div></div><div class="data-row"><div>Magnitude by location</div><div><a href="#map-bubble">Map Bubble Chart</a></div><div>The map is useful when geography changes interpretation.</div></div><div class="data-row"><div>Movement between stages</div><div><a href="#sankey">Sankey Chart</a></div><div>Flow width reveals split, merge, and drop-off patterns.</div></div>
+  </div></div></section>
+    <section class="section" id="chart-index"><div class="inner inner-wide"><p class="eyebrow">Chart chapters</p><h2>Jump into one detailed chart page</h2><p class="lede">Each chapter uses the same structure so designers do not have to relearn the documentation pattern: overview, use/avoid, variants, anatomy, questions, mistakes, accessibility, and states.</p><div class="chart-toolbar"><label for="chapter-filter">Find a chapter</label><input type="search" id="chapter-filter" autocomplete="off" spellcheck="false" placeholder="Try bar, donut, sankey…" enterkeyhint="search"><p class="filter-status" id="chapter-filter-status" aria-live="polite"></p></div><div class="chart-index" id="chapter-card-grid">
+    <a class="chart-card" href="#bar" style="--accent:#2563eb" data-search="bar chart barchart bar">
+      <div class="chart-card__top"><span>01</span><code>BarChart</code></div>
+      <strong>Bar Chart</strong>
+      <p>Compare named categories on a shared scale.</p>
+    </a>
+    <a class="chart-card" href="#line" style="--accent:#0d7a96" data-search="line chart linechart line">
+      <div class="chart-card__top"><span>02</span><code>LineChart</code></div>
+      <strong>Line Chart</strong>
+      <p>Show movement across ordered points.</p>
+    </a>
+    <a class="chart-card" href="#combo" style="--accent:#16a34a" data-search="combo chart combochart combo">
+      <div class="chart-card__top"><span>03</span><code>ComboChart</code></div>
+      <strong>Combo Chart</strong>
+      <p>Combine quantity and related context.</p>
+    </a>
+    <a class="chart-card" href="#donut" style="--accent:#7c3aed" data-search="donut chart donutchart donut">
+      <div class="chart-card__top"><span>04</span><code>DonutChart</code></div>
+      <strong>Donut Chart</strong>
+      <p>Explain composition of one whole.</p>
+    </a>
+    <a class="chart-card" href="#half-donut" style="--accent:#d97706" data-search="half donut chart halfdonutchart half donut">
+      <div class="chart-card__top"><span>05</span><code>HalfDonutChart</code></div>
+      <strong>Half Donut Chart</strong>
+      <p>Show one bounded score or progress value.</p>
+    </a>
+    <a class="chart-card" href="#histogram" style="--accent:#0d7a96" data-search="histogram chart histogramchart histogram">
+      <div class="chart-card__top"><span>06</span><code>HistogramChart</code></div>
+      <strong>Histogram Chart</strong>
+      <p>Show how numeric values are distributed.</p>
+    </a>
+    <a class="chart-card" href="#map-bubble" style="--accent:#2563eb" data-search="map bubble chart mapbubblechart map bubble">
+      <div class="chart-card__top"><span>07</span><code>MapBubbleChart</code></div>
+      <strong>Map Bubble Chart</strong>
+      <p>Show magnitude where geography matters.</p>
+    </a>
+    <a class="chart-card" href="#pointer-scale" style="--accent:#16a34a" data-search="pointer scale pointerscale pointer scale">
+      <div class="chart-card__top"><span>08</span><code>PointerScale</code></div>
+      <strong>Pointer Scale</strong>
+      <p>Place one value on named bands.</p>
+    </a>
+    <a class="chart-card" href="#sankey" style="--accent:#dc2626" data-search="sankey chart sankeychart sankey">
+      <div class="chart-card__top"><span>09</span><code>SankeyChart</code></div>
+      <strong>Sankey Chart</strong>
+      <p>Explain movement between stages.</p>
+    </a>
+    <a class="chart-card" href="#sparkline" style="--accent:#0d7a96" data-search="sparkline sparkline sparkline">
+      <div class="chart-card__top"><span>10</span><code>Sparkline</code></div>
+      <strong>Sparkline</strong>
+      <p>Add compact trend memory beside a value.</p>
+    </a></div></div></section>
+    
+      <section class="chapter" id="bar" style="--accent:#2563eb">
+        <div class="chapter-shell">
+          <aside class="chapter-side">
+            <span class="chapter-number">01</span>
+            <p class="eyebrow">Categorical comparison</p>
+            <h2>Bar Chart</h2>
+            <p>Compare named categories on a shared scale.</p>
+            <div class="chapter-links">
+              <a href="#bar-overview">Overview</a>
+              <a href="#bar-variants">Variants</a>
+              <a href="#bar-questions">Questions</a>
+              <a href="#bar-mistakes">Mistakes</a>
+            </div>
+          </aside>
+          <article class="chapter-main">
+            <section id="bar-overview" class="chapter-panel chapter-hero">
+              <div>
+                <p class="label">BarChart</p>
+                <h3>What this chart is for</h3>
+                <p class="lede">Use a bar chart when the reader needs to compare items, rank categories, or scan differences quickly. It is the safest default for categorical comparison because length on a common baseline is easy to judge.</p>
+                <div class="callout">
+                  <p class="label">How readers decode it</p>
+                  <p>Readers compare bar length first, then category labels, then exact values. Order and baseline matter more than decorative styling.</p>
+                </div>
+              </div>
+              <div class="chart-plate chart-plate--placeholder">
+  <figure class="chart-figure-placeholder">
+    <div class="chart-figure-placeholder__frame" role="img" aria-labelledby="illust-ph-bar-chart">
+      <span id="illust-ph-bar-chart" class="visually-hidden">Bar Chart illustration — image to be added</span>
+      <span class="chart-figure-placeholder__kicker" aria-hidden="true">Image placeholder</span>
+      <span class="chart-figure-placeholder__path" aria-hidden="true"><code>../assets/chapter-previews/bar-chart.png</code></span>
+    </div>
+  </figure>
+</div>
+            </section>
+
+            <section class="grid-2 chapter-block">
+              <div class="panel verdict-do"><p class="label">Use when</p><ul><li>Rank categories from high to low</li><li>Compare teams, regions, products, cohorts, or modules</li><li>Show grouped values across the same categories</li><li>Show total plus composition with stacked bars</li></ul></div>
+              <div class="panel verdict-dont"><p class="label">Avoid when</p><ul><li>Time-series movement where shape matters</li><li>Part-to-whole stories with only a few pieces</li><li>More than 6 visible category colors</li><li>Non-zero baselines that visually exaggerate small differences</li></ul></div>
+            </section>
+
+            <section id="bar-variants" class="chapter-block">
+              <p class="eyebrow">Variants</p>
+              <h3>Pick the version that matches the question</h3>
+              <div class="data-table" style="--table-cols:minmax(180px,.7fr) minmax(320px,1.1fr) minmax(320px,1fr)">
+    <div class="data-row header"><div>Variant</div><div>Use it for</div><div>Design note</div></div>
+    <div class="data-row"><div>Single series</div><div>Best default for one metric across categories.</div><div>Sort intentionally: highest first, lowest first, or product-defined order.</div></div><div class="data-row"><div>Grouped bars</div><div>Use when each category has two or three comparable series.</div><div>Avoid beyond three series; scanning becomes slow.</div></div><div class="data-row"><div>Stacked bars</div><div>Use when the total and broad composition both matter.</div><div>Only the first segment has a shared baseline. Do not use it for precise segment comparison.</div></div><div class="data-row"><div>Horizontal bars</div><div>Use for long category names or rankings.</div><div>Prefer this before rotating labels.</div></div><div class="data-row"><div>Distribution bars</div><div>Use for percentage bands that form a full bar.</div><div>Confirm the segments add to 100%.</div></div>
+  </div>
+            </section>
+
+            <section class="chapter-block">
+              <p class="eyebrow">Anatomy</p>
+              <h3>Parts designers should understand</h3>
+              <div class="data-table" style="--table-cols:minmax(180px,.7fr) minmax(320px,1.1fr) minmax(320px,1fr)">
+    <div class="data-row header"><div>Part</div><div>What it does</div><div>Designer responsibility</div></div>
+    <div class="data-row"><div>Category axis</div><div>Names what is being compared.</div><div>Keep labels short and meaningful.</div></div><div class="data-row"><div>Value axis</div><div>Defines the common scale.</div><div>Start at zero unless the exception is explicitly labeled.</div></div><div class="data-row"><div>Bar mark</div><div>Encodes value by length.</div><div>Keep width, gap, and radius consistent.</div></div><div class="data-row"><div>Legend</div><div>Explains grouped or stacked series.</div><div>Do not force users to decode too many colors.</div></div><div class="data-row"><div>Hover card</div><div>Reveals exact values.</div><div>The chart should remain understandable before hover.</div></div>
+  </div>
+            </section>
+
+            <section id="bar-questions" class="chapter-block grid-2">
+              <div class="panel">
+                <p class="label">Questions before designing</p>
+                <ol><li>What is the comparison unit?</li><li>Should the order be ranked or product-defined?</li><li>How many series are truly needed?</li><li>Do exact values need to be visible or can they live in hover?</li></ol>
+              </div>
+              <div class="panel">
+                <p class="label">Natural product use cases</p>
+                <ul><li>Top regions by completed tasks</li><li>Plan comparison by member count</li><li>Tickets by priority</li><li>Product modules ranked by adoption</li></ul>
+              </div>
+            </section>
+
+            <section id="bar-mistakes" class="chapter-block">
+              <p class="eyebrow">Common mistakes</p>
+              <h3>What makes this chart misleading</h3>
+              <div class="data-table" style="--table-cols:minmax(160px,.55fr) minmax(360px,1.2fr) minmax(260px,.9fr)">
+    <div class="data-row header"><div>Issue</div><div>Why it matters</div><div>How to handle it</div></div>
+    <div class="data-row"><div>Watch-out 1</div><div>Leaving bars unsorted when the task is ranking</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 2</div><div>Using stacked bars for precise segment comparison</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 3</div><div>Using too many colors in a simple comparison</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 4</div><div>Using a non-zero baseline without making it obvious</div><div>Resolve it before polishing the visual.</div></div>
+  </div>
+            </section>
+
+            <section class="chapter-block grid-2">
+              <div class="panel">
+                <p class="label">Accessibility checks</p>
+                <ul>
+                  <li>Do not rely on color alone for meaning.</li>
+                  <li>Write a useful title and description for handoff.</li>
+                  <li>Keep the chart understandable before hover.</li>
+                  <li>Use table fallback where precision matters.</li>
+                </ul>
+              </div>
+              <div class="callout">
+                <p class="label">State guidance</p>
+                <p>For empty states, explain which category data is missing. Skeleton bars should preserve the expected chart footprint while loading.</p>
+              </div>
+            </section>
+          </article>
+        </div>
+      </section>
+      <section class="chapter" id="line" style="--accent:#0d7a96">
+        <div class="chapter-shell">
+          <aside class="chapter-side">
+            <span class="chapter-number">02</span>
+            <p class="eyebrow">Trend over time</p>
+            <h2>Line Chart</h2>
+            <p>Show movement across ordered points.</p>
+            <div class="chapter-links">
+              <a href="#line-overview">Overview</a>
+              <a href="#line-variants">Variants</a>
+              <a href="#line-questions">Questions</a>
+              <a href="#line-mistakes">Mistakes</a>
+            </div>
+          </aside>
+          <article class="chapter-main">
+            <section id="line-overview" class="chapter-panel chapter-hero">
+              <div>
+                <p class="label">LineChart</p>
+                <h3>What this chart is for</h3>
+                <p class="lede">Use a line chart when the important thing is direction, slope, volatility, or change over time. The shape of the line should be the main message.</p>
+                <div class="callout">
+                  <p class="label">How readers decode it</p>
+                  <p>Readers read the overall shape before individual values. Gaps, slopes, peaks, and thresholds should be honest and easy to inspect.</p>
+                </div>
+              </div>
+              <div class="chart-plate chart-plate--placeholder">
+  <figure class="chart-figure-placeholder">
+    <div class="chart-figure-placeholder__frame" role="img" aria-labelledby="illust-ph-line-chart">
+      <span id="illust-ph-line-chart" class="visually-hidden">Line Chart illustration — image to be added</span>
+      <span class="chart-figure-placeholder__kicker" aria-hidden="true">Image placeholder</span>
+      <span class="chart-figure-placeholder__path" aria-hidden="true"><code>../assets/chapter-previews/line-chart.png</code></span>
+    </div>
+  </figure>
+</div>
+            </section>
+
+            <section class="grid-2 chapter-block">
+              <div class="panel verdict-do"><p class="label">Use when</p><ul><li>Time-series trends</li><li>Actual versus projected movement</li><li>Small multi-series trend comparisons</li><li>Targets, thresholds, baselines, or averages</li></ul></div>
+              <div class="panel verdict-dont"><p class="label">Avoid when</p><ul><li>Unordered categories</li><li>More than four competing lines</li><li>Connecting across missing time gaps without explanation</li><li>Dual axes without very clear labeling</li></ul></div>
+            </section>
+
+            <section id="line-variants" class="chapter-block">
+              <p class="eyebrow">Variants</p>
+              <h3>Pick the version that matches the question</h3>
+              <div class="data-table" style="--table-cols:minmax(180px,.7fr) minmax(320px,1.1fr) minmax(320px,1fr)">
+    <div class="data-row header"><div>Variant</div><div>Use it for</div><div>Design note</div></div>
+    <div class="data-row"><div>Single line</div><div>Best for one metric over time.</div><div>Use when trend shape is the story.</div></div><div class="data-row"><div>Multi-line</div><div>Best for comparing two to four related trends.</div><div>Use labels, stroke style, or direct callouts when color is not enough.</div></div><div class="data-row"><div>Area fill</div><div>Best when volume under the line needs emphasis.</div><div>Avoid overlapping area fills.</div></div><div class="data-row"><div>Dual axis</div><div>Use only for related metrics with different units.</div><div>Label both axes clearly and use sparingly.</div></div><div class="data-row"><div>Reference line</div><div>Use for target, threshold, baseline, or average.</div><div>Limit to one or two meaningful context lines.</div></div>
+  </div>
+            </section>
+
+            <section class="chapter-block">
+              <p class="eyebrow">Anatomy</p>
+              <h3>Parts designers should understand</h3>
+              <div class="data-table" style="--table-cols:minmax(180px,.7fr) minmax(320px,1.1fr) minmax(320px,1fr)">
+    <div class="data-row header"><div>Part</div><div>What it does</div><div>Designer responsibility</div></div>
+    <div class="data-row"><div>X axis</div><div>Usually time or another ordered sequence.</div><div>Keep intervals consistent.</div></div><div class="data-row"><div>Y axis</div><div>Defines the value scale.</div><div>Label units clearly.</div></div><div class="data-row"><div>Line path</div><div>Shows direction, slope, volatility, and change.</div><div>Do not smooth away important behavior.</div></div><div class="data-row"><div>Dots</div><div>Optional individual observations.</div><div>Use when points matter, not by default.</div></div><div class="data-row"><div>Reference line</div><div>Adds target or threshold context.</div><div>Treat as context, not decoration.</div></div>
+  </div>
+            </section>
+
+            <section id="line-questions" class="chapter-block grid-2">
+              <div class="panel">
+                <p class="label">Questions before designing</p>
+                <ol><li>What is the time grain?</li><li>Are missing points gaps or zero values?</li><li>Do individual points matter enough to show dots?</li><li>Is a target or threshold part of the story?</li></ol>
+              </div>
+              <div class="panel">
+                <p class="label">Natural product use cases</p>
+                <ul><li>Monthly active users</li><li>Actual versus projected cost</li><li>Daily task completion</li><li>Average response time trend</li></ul>
+              </div>
+            </section>
+
+            <section id="line-mistakes" class="chapter-block">
+              <p class="eyebrow">Common mistakes</p>
+              <h3>What makes this chart misleading</h3>
+              <div class="data-table" style="--table-cols:minmax(160px,.55fr) minmax(360px,1.2fr) minmax(260px,.9fr)">
+    <div class="data-row header"><div>Issue</div><div>Why it matters</div><div>How to handle it</div></div>
+    <div class="data-row"><div>Watch-out 1</div><div>Connecting across missing data</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 2</div><div>Creating a spaghetti chart with too many lines</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 3</div><div>Using area fill when it implies accumulated volume incorrectly</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 4</div><div>Using dual axes that imply false correlation</div><div>Resolve it before polishing the visual.</div></div>
+  </div>
+            </section>
+
+            <section class="chapter-block grid-2">
+              <div class="panel">
+                <p class="label">Accessibility checks</p>
+                <ul>
+                  <li>Do not rely on color alone for meaning.</li>
+                  <li>Write a useful title and description for handoff.</li>
+                  <li>Keep the chart understandable before hover.</li>
+                  <li>Use table fallback where precision matters.</li>
+                </ul>
+              </div>
+              <div class="callout">
+                <p class="label">State guidance</p>
+                <p>When data is sparse, show the available points honestly. Do not smooth or interpolate gaps unless the rule is documented.</p>
+              </div>
+            </section>
+          </article>
+        </div>
+      </section>
+      <section class="chapter" id="combo" style="--accent:#16a34a">
+        <div class="chapter-shell">
+          <aside class="chapter-side">
+            <span class="chapter-number">03</span>
+            <p class="eyebrow">Bars plus trend</p>
+            <h2>Combo Chart</h2>
+            <p>Combine quantity and related context.</p>
+            <div class="chapter-links">
+              <a href="#combo-overview">Overview</a>
+              <a href="#combo-variants">Variants</a>
+              <a href="#combo-questions">Questions</a>
+              <a href="#combo-mistakes">Mistakes</a>
+            </div>
+          </aside>
+          <article class="chapter-main">
+            <section id="combo-overview" class="chapter-panel chapter-hero">
+              <div>
+                <p class="label">ComboChart</p>
+                <h3>What this chart is for</h3>
+                <p class="lede">Use a combo chart when bars and a line answer one related question together: volume plus rate, actuals plus target, or totals plus benchmark.</p>
+                <div class="callout">
+                  <p class="label">How readers decode it</p>
+                  <p>Readers read the bars as the base quantity and the line as the contextual layer. The relationship must be intentional, otherwise the chart invents a story.</p>
+                </div>
+              </div>
+              <div class="chart-plate chart-plate--placeholder">
+  <figure class="chart-figure-placeholder">
+    <div class="chart-figure-placeholder__frame" role="img" aria-labelledby="illust-ph-combo-chart">
+      <span id="illust-ph-combo-chart" class="visually-hidden">Combo Chart illustration — image to be added</span>
+      <span class="chart-figure-placeholder__kicker" aria-hidden="true">Image placeholder</span>
+      <span class="chart-figure-placeholder__path" aria-hidden="true"><code>../assets/chapter-previews/combo-chart.png</code></span>
+    </div>
+  </figure>
+</div>
+            </section>
+
+            <section class="grid-2 chapter-block">
+              <div class="panel verdict-do"><p class="label">Use when</p><ul><li>Volume plus rate</li><li>Actual totals plus target trend</li><li>Category totals with a benchmark line</li><li>Two related metrics with different scales</li></ul></div>
+              <div class="panel verdict-dont"><p class="label">Avoid when</p><ul><li>Unrelated metrics</li><li>More than one overlay line</li><li>Area fills over bars</li><li>Too many grouped bar series under the line</li></ul></div>
+            </section>
+
+            <section id="combo-variants" class="chapter-block">
+              <p class="eyebrow">Variants</p>
+              <h3>Pick the version that matches the question</h3>
+              <div class="data-table" style="--table-cols:minmax(180px,.7fr) minmax(320px,1.1fr) minmax(320px,1fr)">
+    <div class="data-row header"><div>Variant</div><div>Use it for</div><div>Design note</div></div>
+    <div class="data-row"><div>Grouped bars plus line</div><div>Category totals with a related rate.</div><div>Keep grouped bars to two or three series.</div></div><div class="data-row"><div>Stacked bars plus benchmark</div><div>A total made of parts plus external benchmark.</div><div>Do not make the benchmark visually louder than the stack.</div></div><div class="data-row"><div>Bar-only mode</div><div>Overlay is optional by state or filter.</div><div>Do not present this as a separate chart type.</div></div><div class="data-row"><div>Dual-axis combo</div><div>Different units or scale ranges.</div><div>Label both axes and avoid area fill.</div></div>
+  </div>
+            </section>
+
+            <section class="chapter-block">
+              <p class="eyebrow">Anatomy</p>
+              <h3>Parts designers should understand</h3>
+              <div class="data-table" style="--table-cols:minmax(180px,.7fr) minmax(320px,1.1fr) minmax(320px,1fr)">
+    <div class="data-row header"><div>Part</div><div>What it does</div><div>Designer responsibility</div></div>
+    <div class="data-row"><div>Bar layer</div><div>Primary quantity or count.</div><div>Make it stable and easy to compare.</div></div><div class="data-row"><div>Line layer</div><div>Rate, target, benchmark, or secondary metric.</div><div>Keep it directly related to the bars.</div></div><div class="data-row"><div>Left axis</div><div>Normally belongs to the bar metric.</div><div>Label unit and scale.</div></div><div class="data-row"><div>Right axis</div><div>Used only when the line metric needs a different unit.</div><div>Use sparingly.</div></div><div class="data-row"><div>Shared categories</div><div>Bars and line align to the same buckets.</div><div>Do not mix unrelated category logic.</div></div>
+  </div>
+            </section>
+
+            <section id="combo-questions" class="chapter-block grid-2">
+              <div class="panel">
+                <p class="label">Questions before designing</p>
+                <ol><li>What relationship should bars and line imply?</li><li>Do the metrics share a unit?</li><li>Which layer is primary?</li><li>Is the line actual data, target, or benchmark?</li></ol>
+              </div>
+              <div class="panel">
+                <p class="label">Natural product use cases</p>
+                <ul><li>Appointments by month plus completion rate</li><li>Revenue by product plus margin percentage</li><li>Tickets by week plus SLA target</li><li>Volume plus conversion</li></ul>
+              </div>
+            </section>
+
+            <section id="combo-mistakes" class="chapter-block">
+              <p class="eyebrow">Common mistakes</p>
+              <h3>What makes this chart misleading</h3>
+              <div class="data-table" style="--table-cols:minmax(160px,.55fr) minmax(360px,1.2fr) minmax(260px,.9fr)">
+    <div class="data-row header"><div>Issue</div><div>Why it matters</div><div>How to handle it</div></div>
+    <div class="data-row"><div>Watch-out 1</div><div>Pairing unrelated metrics</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 2</div><div>Adding two overlay lines</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 3</div><div>Using area fill over bars</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 4</div><div>Using the same color for a bar series and the line</div><div>Resolve it before polishing the visual.</div></div>
+  </div>
+            </section>
+
+            <section class="chapter-block grid-2">
+              <div class="panel">
+                <p class="label">Accessibility checks</p>
+                <ul>
+                  <li>Do not rely on color alone for meaning.</li>
+                  <li>Write a useful title and description for handoff.</li>
+                  <li>Keep the chart understandable before hover.</li>
+                  <li>Use table fallback where precision matters.</li>
+                </ul>
+              </div>
+              <div class="callout">
+                <p class="label">State guidance</p>
+                <p>If the overlay line is unavailable, keep the bar chart useful and label the missing secondary metric in the empty or annotation state.</p>
+              </div>
+            </section>
+          </article>
+        </div>
+      </section>
+      <section class="chapter" id="donut" style="--accent:#7c3aed">
+        <div class="chapter-shell">
+          <aside class="chapter-side">
+            <span class="chapter-number">04</span>
+            <p class="eyebrow">Part of whole</p>
+            <h2>Donut Chart</h2>
+            <p>Explain composition of one whole.</p>
+            <div class="chapter-links">
+              <a href="#donut-overview">Overview</a>
+              <a href="#donut-variants">Variants</a>
+              <a href="#donut-questions">Questions</a>
+              <a href="#donut-mistakes">Mistakes</a>
+            </div>
+          </aside>
+          <article class="chapter-main">
+            <section id="donut-overview" class="chapter-panel chapter-hero">
+              <div>
+                <p class="label">DonutChart</p>
+                <h3>What this chart is for</h3>
+                <p class="lede">Use a donut chart when the story is composition. It works best with a small number of segments and when approximate share is enough.</p>
+                <div class="callout">
+                  <p class="label">How readers decode it</p>
+                  <p>Readers read the dominant segment, then the center value or legend. Donuts are weak for precise comparisons, so the story must be broad composition.</p>
+                </div>
+              </div>
+              <div class="chart-plate chart-plate--placeholder">
+  <figure class="chart-figure-placeholder">
+    <div class="chart-figure-placeholder__frame" role="img" aria-labelledby="illust-ph-donut-chart">
+      <span id="illust-ph-donut-chart" class="visually-hidden">Donut Chart illustration — image to be added</span>
+      <span class="chart-figure-placeholder__kicker" aria-hidden="true">Image placeholder</span>
+      <span class="chart-figure-placeholder__path" aria-hidden="true"><code>../assets/chapter-previews/donut-chart.png</code></span>
+    </div>
+  </figure>
+</div>
+            </section>
+
+            <section class="grid-2 chapter-block">
+              <div class="panel verdict-do"><p class="label">Use when</p><ul><li>Share of a whole</li><li>One dominant segment</li><li>Compact composition cards</li><li>A center label with total or selected value</li></ul></div>
+              <div class="panel verdict-dont"><p class="label">Avoid when</p><ul><li>Precise comparison between many segments</li><li>Time-series data</li><li>More than five or six slices</li><li>Tiny segments that cannot be labeled or selected</li></ul></div>
+            </section>
+
+            <section id="donut-variants" class="chapter-block">
+              <p class="eyebrow">Variants</p>
+              <h3>Pick the version that matches the question</h3>
+              <div class="data-table" style="--table-cols:minmax(180px,.7fr) minmax(320px,1.1fr) minmax(320px,1fr)">
+    <div class="data-row header"><div>Variant</div><div>Use it for</div><div>Design note</div></div>
+    <div class="data-row"><div>Standard donut</div><div>Simple composition.</div><div>Use with three to five readable segments.</div></div><div class="data-row"><div>Rounded caps</div><div>Polished dashboard cards.</div><div>Avoid when tiny slices lose visual accuracy.</div></div><div class="data-row"><div>Center label</div><div>Total or highlighted value.</div><div>Keep it short.</div></div><div class="data-row"><div>Texture or gradient fill</div><div>Accessibility or emphasis.</div><div>Use intentionally, not as decoration.</div></div><div class="data-row"><div>Legend-led donut</div><div>Labels cannot fit around the chart.</div><div>Keep legend order matching segment order.</div></div>
+  </div>
+            </section>
+
+            <section class="chapter-block">
+              <p class="eyebrow">Anatomy</p>
+              <h3>Parts designers should understand</h3>
+              <div class="data-table" style="--table-cols:minmax(180px,.7fr) minmax(320px,1.1fr) minmax(320px,1fr)">
+    <div class="data-row header"><div>Part</div><div>What it does</div><div>Designer responsibility</div></div>
+    <div class="data-row"><div>Ring</div><div>Represents 100% of the whole.</div><div>Define the whole clearly.</div></div><div class="data-row"><div>Segment arc</div><div>Encodes proportion by angle and arc length.</div><div>Keep segments few enough to read.</div></div><div class="data-row"><div>Center label</div><div>Shows total, selected segment, or headline percentage.</div><div>Avoid long strings.</div></div><div class="data-row"><div>Legend</div><div>Connects segment color to category.</div><div>Match segment order.</div></div><div class="data-row"><div>Segment label</div><div>Optional direct value.</div><div>Use only when there are few slices.</div></div>
+  </div>
+            </section>
+
+            <section id="donut-questions" class="chapter-block grid-2">
+              <div class="panel">
+                <p class="label">Questions before designing</p>
+                <ol><li>What is the whole?</li><li>Do all values add to that whole?</li><li>Which segment should be read first?</li><li>Is approximate share enough?</li></ol>
+              </div>
+              <div class="panel">
+                <p class="label">Natural product use cases</p>
+                <ul><li>Status breakdown</li><li>Budget allocation</li><li>Channel mix</li><li>Portfolio composition</li></ul>
+              </div>
+            </section>
+
+            <section id="donut-mistakes" class="chapter-block">
+              <p class="eyebrow">Common mistakes</p>
+              <h3>What makes this chart misleading</h3>
+              <div class="data-table" style="--table-cols:minmax(160px,.55fr) minmax(360px,1.2fr) minmax(260px,.9fr)">
+    <div class="data-row header"><div>Issue</div><div>Why it matters</div><div>How to handle it</div></div>
+    <div class="data-row"><div>Watch-out 1</div><div>Using too many slices</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 2</div><div>Comparing similar slice sizes</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 3</div><div>Letting tiny slices disappear</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 4</div><div>Leaving segments in random order</div><div>Resolve it before polishing the visual.</div></div>
+  </div>
+            </section>
+
+            <section class="chapter-block grid-2">
+              <div class="panel">
+                <p class="label">Accessibility checks</p>
+                <ul>
+                  <li>Do not rely on color alone for meaning.</li>
+                  <li>Write a useful title and description for handoff.</li>
+                  <li>Keep the chart understandable before hover.</li>
+                  <li>Use table fallback where precision matters.</li>
+                </ul>
+              </div>
+              <div class="callout">
+                <p class="label">State guidance</p>
+                <p>If the total is zero, do not render a decorative empty ring as data. Use an empty state that explains the missing whole.</p>
+              </div>
+            </section>
+          </article>
+        </div>
+      </section>
+      <section class="chapter" id="half-donut" style="--accent:#d97706">
+        <div class="chapter-shell">
+          <aside class="chapter-side">
+            <span class="chapter-number">05</span>
+            <p class="eyebrow">Single value gauge</p>
+            <h2>Half Donut Chart</h2>
+            <p>Show one bounded score or progress value.</p>
+            <div class="chapter-links">
+              <a href="#half-donut-overview">Overview</a>
+              <a href="#half-donut-variants">Variants</a>
+              <a href="#half-donut-questions">Questions</a>
+              <a href="#half-donut-mistakes">Mistakes</a>
+            </div>
+          </aside>
+          <article class="chapter-main">
+            <section id="half-donut-overview" class="chapter-panel chapter-hero">
+              <div>
+                <p class="label">HalfDonutChart</p>
+                <h3>What this chart is for</h3>
+                <p class="lede">Use a half donut when the story is one progress, score, or completion value. It is compact and expressive, but not good for comparing many values.</p>
+                <div class="callout">
+                  <p class="label">How readers decode it</p>
+                  <p>Readers read the center value first, then where the arc sits between min and max. The range must be meaningful.</p>
+                </div>
+              </div>
+              <div class="chart-plate chart-plate--placeholder">
+  <figure class="chart-figure-placeholder">
+    <div class="chart-figure-placeholder__frame" role="img" aria-labelledby="illust-ph-half-donut-chart">
+      <span id="illust-ph-half-donut-chart" class="visually-hidden">Half Donut Chart illustration — image to be added</span>
+      <span class="chart-figure-placeholder__kicker" aria-hidden="true">Image placeholder</span>
+      <span class="chart-figure-placeholder__path" aria-hidden="true"><code>../assets/chapter-previews/half-donut-chart.png</code></span>
+    </div>
+  </figure>
+</div>
+            </section>
+
+            <section class="grid-2 chapter-block">
+              <div class="panel verdict-do"><p class="label">Use when</p><ul><li>Completion percentages</li><li>Score summaries</li><li>Goal progress in compact cards</li><li>One value against a bounded range</li></ul></div>
+              <div class="panel verdict-dont"><p class="label">Avoid when</p><ul><li>Comparing many categories</li><li>Unbounded values</li><li>Precise distribution analysis</li><li>Multiple gauges where a bar chart would compare better</li></ul></div>
+            </section>
+
+            <section id="half-donut-variants" class="chapter-block">
+              <p class="eyebrow">Variants</p>
+              <h3>Pick the version that matches the question</h3>
+              <div class="data-table" style="--table-cols:minmax(180px,.7fr) minmax(320px,1.1fr) minmax(320px,1fr)">
+    <div class="data-row header"><div>Variant</div><div>Use it for</div><div>Design note</div></div>
+    <div class="data-row"><div>Progress arc</div><div>One completion metric.</div><div>Use when the range is naturally 0 to 100.</div></div><div class="data-row"><div>Segmented ranges</div><div>Score bands.</div><div>Label bands outside the color system.</div></div><div class="data-row"><div>Center value</div><div>The number readers need first.</div><div>Avoid long labels.</div></div><div class="data-row"><div>Target marker</div><div>Goal comparison.</div><div>Make sure target and value do not overlap.</div></div><div class="data-row"><div>Compact card gauge</div><div>Status-heavy dashboards.</div><div>Use sparingly when many cards appear together.</div></div>
+  </div>
+            </section>
+
+            <section class="chapter-block">
+              <p class="eyebrow">Anatomy</p>
+              <h3>Parts designers should understand</h3>
+              <div class="data-table" style="--table-cols:minmax(180px,.7fr) minmax(320px,1.1fr) minmax(320px,1fr)">
+    <div class="data-row header"><div>Part</div><div>What it does</div><div>Designer responsibility</div></div>
+    <div class="data-row"><div>Arc track</div><div>Shows the full possible range.</div><div>Make the range meaningful.</div></div><div class="data-row"><div>Progress arc</div><div>Shows the current value.</div><div>Do not overstate precision.</div></div><div class="data-row"><div>Center value</div><div>Names exact score, percentage, or progress.</div><div>Keep it short.</div></div><div class="data-row"><div>Range labels</div><div>Clarify low and high ends.</div><div>Use when min/max may not be obvious.</div></div><div class="data-row"><div>Target marker</div><div>Optional goal or benchmark.</div><div>Avoid overlap with the value.</div></div>
+  </div>
+            </section>
+
+            <section id="half-donut-questions" class="chapter-block grid-2">
+              <div class="panel">
+                <p class="label">Questions before designing</p>
+                <ol><li>What are min and max?</li><li>Is this progress, score, or risk?</li><li>Does the center value need a unit?</li><li>Would a linear scale be easier to compare?</li></ol>
+              </div>
+              <div class="panel">
+                <p class="label">Natural product use cases</p>
+                <ul><li>Completion score</li><li>Readiness percentage</li><li>Capacity used</li><li>Goal progress</li></ul>
+              </div>
+            </section>
+
+            <section id="half-donut-mistakes" class="chapter-block">
+              <p class="eyebrow">Common mistakes</p>
+              <h3>What makes this chart misleading</h3>
+              <div class="data-table" style="--table-cols:minmax(160px,.55fr) minmax(360px,1.2fr) minmax(260px,.9fr)">
+    <div class="data-row header"><div>Issue</div><div>Why it matters</div><div>How to handle it</div></div>
+    <div class="data-row"><div>Watch-out 1</div><div>Using many gauges when bars would compare better</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 2</div><div>Using an unbounded value</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 3</div><div>Overstating importance with a decorative arc</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 4</div><div>Putting long text in the center</div><div>Resolve it before polishing the visual.</div></div>
+  </div>
+            </section>
+
+            <section class="chapter-block grid-2">
+              <div class="panel">
+                <p class="label">Accessibility checks</p>
+                <ul>
+                  <li>Do not rely on color alone for meaning.</li>
+                  <li>Write a useful title and description for handoff.</li>
+                  <li>Keep the chart understandable before hover.</li>
+                  <li>Use table fallback where precision matters.</li>
+                </ul>
+              </div>
+              <div class="callout">
+                <p class="label">State guidance</p>
+                <p>When value is unknown, show an unavailable state instead of placing the arc at zero; zero is a real value.</p>
+              </div>
+            </section>
+          </article>
+        </div>
+      </section>
+      <section class="chapter" id="histogram" style="--accent:#0d7a96">
+        <div class="chapter-shell">
+          <aside class="chapter-side">
+            <span class="chapter-number">06</span>
+            <p class="eyebrow">Distribution bins</p>
+            <h2>Histogram Chart</h2>
+            <p>Show how numeric values are distributed.</p>
+            <div class="chapter-links">
+              <a href="#histogram-overview">Overview</a>
+              <a href="#histogram-variants">Variants</a>
+              <a href="#histogram-questions">Questions</a>
+              <a href="#histogram-mistakes">Mistakes</a>
+            </div>
+          </aside>
+          <article class="chapter-main">
+            <section id="histogram-overview" class="chapter-panel chapter-hero">
+              <div>
+                <p class="label">HistogramChart</p>
+                <h3>What this chart is for</h3>
+                <p class="lede">Use a histogram when the story is spread, clustering, skew, or outliers across numeric ranges. The bin logic is the design decision.</p>
+                <div class="callout">
+                  <p class="label">How readers decode it</p>
+                  <p>Readers read the overall distribution shape first, then bin labels. If bins are unclear, the chart becomes misleading even if it looks polished.</p>
+                </div>
+              </div>
+              <div class="chart-plate chart-plate--placeholder">
+  <figure class="chart-figure-placeholder">
+    <div class="chart-figure-placeholder__frame" role="img" aria-labelledby="illust-ph-histogram-chart">
+      <span id="illust-ph-histogram-chart" class="visually-hidden">Histogram Chart illustration — image to be added</span>
+      <span class="chart-figure-placeholder__kicker" aria-hidden="true">Image placeholder</span>
+      <span class="chart-figure-placeholder__path" aria-hidden="true"><code>../assets/chapter-previews/histogram-chart.png</code></span>
+    </div>
+  </figure>
+</div>
+            </section>
+
+            <section class="grid-2 chapter-block">
+              <div class="panel verdict-do"><p class="label">Use when</p><ul><li>Frequency distribution</li><li>Understanding spread and clustering</li><li>Showing skew or outliers</li><li>Comparing ranges rather than named categories</li></ul></div>
+              <div class="panel verdict-dont"><p class="label">Avoid when</p><ul><li>Named categories</li><li>Overlapping or uneven bins without explanation</li><li>Too many narrow bins</li><li>Using it as a normal bar chart</li></ul></div>
+            </section>
+
+            <section id="histogram-variants" class="chapter-block">
+              <p class="eyebrow">Variants</p>
+              <h3>Pick the version that matches the question</h3>
+              <div class="data-table" style="--table-cols:minmax(180px,.7fr) minmax(320px,1.1fr) minmax(320px,1fr)">
+    <div class="data-row header"><div>Variant</div><div>Use it for</div><div>Design note</div></div>
+    <div class="data-row"><div>Sequential fill</div><div>Emphasizing ordered ranges.</div><div>Do not let color replace axis labels.</div></div><div class="data-row"><div>Overlay trend</div><div>Showing distribution shape.</div><div>Use only when it mirrors or summarizes bins.</div></div><div class="data-row"><div>Area curve</div><div>A softer density feel.</div><div>Avoid if it hides exact bar counts.</div></div><div class="data-row"><div>Hatched bars</div><div>Accessibility or special subsets.</div><div>Use with a legend.</div></div><div class="data-row"><div>Clean embedded chart</div><div>Compact analytics panels.</div><div>Keep key labels visible.</div></div>
+  </div>
+            </section>
+
+            <section class="chapter-block">
+              <p class="eyebrow">Anatomy</p>
+              <h3>Parts designers should understand</h3>
+              <div class="data-table" style="--table-cols:minmax(180px,.7fr) minmax(320px,1.1fr) minmax(320px,1fr)">
+    <div class="data-row header"><div>Part</div><div>What it does</div><div>Designer responsibility</div></div>
+    <div class="data-row"><div>Bins</div><div>Numeric ranges that group raw values.</div><div>Define boundaries before visual polish.</div></div><div class="data-row"><div>Bar height</div><div>Frequency or count in each range.</div><div>Label whether it is count or percentage.</div></div><div class="data-row"><div>Sequential fill</div><div>Optional range intensity cue.</div><div>Use only as support.</div></div><div class="data-row"><div>Overlay line</div><div>Optional shape summary.</div><div>Do not use it as a separate dataset.</div></div><div class="data-row"><div>Axis labels</div><div>Explain ranges and units.</div><div>Keep boundaries readable.</div></div>
+  </div>
+            </section>
+
+            <section id="histogram-questions" class="chapter-block grid-2">
+              <div class="panel">
+                <p class="label">Questions before designing</p>
+                <ol><li>What does one bin represent?</li><li>Are bins equal width?</li><li>Is count or percentage on the Y axis?</li><li>Are outliers important to show separately?</li></ol>
+              </div>
+              <div class="panel">
+                <p class="label">Natural product use cases</p>
+                <ul><li>Age range distribution</li><li>Response time buckets</li><li>Score bands</li><li>Cost ranges</li></ul>
+              </div>
+            </section>
+
+            <section id="histogram-mistakes" class="chapter-block">
+              <p class="eyebrow">Common mistakes</p>
+              <h3>What makes this chart misleading</h3>
+              <div class="data-table" style="--table-cols:minmax(160px,.55fr) minmax(360px,1.2fr) minmax(260px,.9fr)">
+    <div class="data-row header"><div>Issue</div><div>Why it matters</div><div>How to handle it</div></div>
+    <div class="data-row"><div>Watch-out 1</div><div>Using uneven bins without labels</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 2</div><div>Using too many bins</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 3</div><div>Using too few bins</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 4</div><div>Using it for named categories</div><div>Resolve it before polishing the visual.</div></div>
+  </div>
+            </section>
+
+            <section class="chapter-block grid-2">
+              <div class="panel">
+                <p class="label">Accessibility checks</p>
+                <ul>
+                  <li>Do not rely on color alone for meaning.</li>
+                  <li>Write a useful title and description for handoff.</li>
+                  <li>Keep the chart understandable before hover.</li>
+                  <li>Use table fallback where precision matters.</li>
+                </ul>
+              </div>
+              <div class="callout">
+                <p class="label">State guidance</p>
+                <p>When there are not enough observations, explain that the distribution cannot be formed instead of showing a fake smooth shape.</p>
+              </div>
+            </section>
+          </article>
+        </div>
+      </section>
+      <section class="chapter" id="map-bubble" style="--accent:#2563eb">
+        <div class="chapter-shell">
+          <aside class="chapter-side">
+            <span class="chapter-number">07</span>
+            <p class="eyebrow">Geographic magnitude</p>
+            <h2>Map Bubble Chart</h2>
+            <p>Show magnitude where geography matters.</p>
+            <div class="chapter-links">
+              <a href="#map-bubble-overview">Overview</a>
+              <a href="#map-bubble-variants">Variants</a>
+              <a href="#map-bubble-questions">Questions</a>
+              <a href="#map-bubble-mistakes">Mistakes</a>
+            </div>
+          </aside>
+          <article class="chapter-main">
+            <section id="map-bubble-overview" class="chapter-panel chapter-hero">
+              <div>
+                <p class="label">MapBubbleChart</p>
+                <h3>What this chart is for</h3>
+                <p class="lede">Use a map bubble chart when location changes the interpretation of the data. The map should add context, not just visual interest.</p>
+                <div class="callout">
+                  <p class="label">How readers decode it</p>
+                  <p>Readers read geography first and quantity second. This chart is useful only when where something happens matters to the decision.</p>
+                </div>
+              </div>
+              <div class="chart-plate chart-plate--placeholder">
+  <figure class="chart-figure-placeholder">
+    <div class="chart-figure-placeholder__frame" role="img" aria-labelledby="illust-ph-map-bubble-chart">
+      <span id="illust-ph-map-bubble-chart" class="visually-hidden">Map Bubble Chart illustration — image to be added</span>
+      <span class="chart-figure-placeholder__kicker" aria-hidden="true">Image placeholder</span>
+      <span class="chart-figure-placeholder__path" aria-hidden="true"><code>../assets/chapter-previews/map-bubble-chart.png</code></span>
+    </div>
+  </figure>
+</div>
+            </section>
+
+            <section class="grid-2 chapter-block">
+              <div class="panel verdict-do"><p class="label">Use when</p><ul><li>Geographic distribution</li><li>Regional magnitude comparison</li><li>State or national views</li><li>Spatial patterns that matter to the decision</li></ul></div>
+              <div class="panel verdict-dont"><p class="label">Avoid when</p><ul><li>Precise ranking without a table</li><li>Locations packed so tightly bubbles hide each other</li><li>Using a map when location is irrelevant</li><li>Relying only on bubble size for exact values</li></ul></div>
+            </section>
+
+            <section id="map-bubble-variants" class="chapter-block">
+              <p class="eyebrow">Variants</p>
+              <h3>Pick the version that matches the question</h3>
+              <div class="data-table" style="--table-cols:minmax(180px,.7fr) minmax(320px,1.1fr) minmax(320px,1fr)">
+    <div class="data-row header"><div>Variant</div><div>Use it for</div><div>Design note</div></div>
+    <div class="data-row"><div>National view</div><div>Country-wide distribution.</div><div>Use when regional pattern matters.</div></div><div class="data-row"><div>State drill-down</div><div>Local inspection.</div><div>Use after a national view or filter.</div></div><div class="data-row"><div>Filled bubbles</div><div>Strong magnitude visibility.</div><div>Use stroke for contrast.</div></div><div class="data-row"><div>Outlined bubbles</div><div>Dense maps.</div><div>Avoid if values become too subtle.</div></div><div class="data-row"><div>Table fallback</div><div>Exact ranking.</div><div>Always include when precision matters.</div></div>
+  </div>
+            </section>
+
+            <section class="chapter-block">
+              <p class="eyebrow">Anatomy</p>
+              <h3>Parts designers should understand</h3>
+              <div class="data-table" style="--table-cols:minmax(180px,.7fr) minmax(320px,1.1fr) minmax(320px,1fr)">
+    <div class="data-row header"><div>Part</div><div>What it does</div><div>Designer responsibility</div></div>
+    <div class="data-row"><div>Map base</div><div>Provides geographic context.</div><div>Keep it quiet so data remains primary.</div></div><div class="data-row"><div>Bubble</div><div>Encodes magnitude by area.</div><div>Use square-root sizing for perception.</div></div><div class="data-row"><div>Bubble stroke</div><div>Keeps marks visible on the map.</div><div>Use enough contrast.</div></div><div class="data-row"><div>Projection and scope</div><div>Defines national, regional, or state view.</div><div>Do not mix positioning modes.</div></div><div class="data-row"><div>Table fallback</div><div>Supports precision, sorting, and accessibility.</div><div>Include for exact values.</div></div>
+  </div>
+            </section>
+
+            <section id="map-bubble-questions" class="chapter-block grid-2">
+              <div class="panel">
+                <p class="label">Questions before designing</p>
+                <ol><li>Does geography answer the question?</li><li>What is the smallest useful geography?</li><li>Are bubbles overlapping?</li><li>Does the reader need an exact ranked list?</li></ol>
+              </div>
+              <div class="panel">
+                <p class="label">Natural product use cases</p>
+                <ul><li>Facilities by region</li><li>Demand by state</li><li>Network coverage</li><li>Incident concentration</li></ul>
+              </div>
+            </section>
+
+            <section id="map-bubble-mistakes" class="chapter-block">
+              <p class="eyebrow">Common mistakes</p>
+              <h3>What makes this chart misleading</h3>
+              <div class="data-table" style="--table-cols:minmax(160px,.55fr) minmax(360px,1.2fr) minmax(260px,.9fr)">
+    <div class="data-row header"><div>Issue</div><div>Why it matters</div><div>How to handle it</div></div>
+    <div class="data-row"><div>Watch-out 1</div><div>Using a map when geography is irrelevant</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 2</div><div>Letting large bubbles hide smaller locations</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 3</div><div>Expecting precise area perception</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 4</div><div>Skipping fallback lists for dense regions</div><div>Resolve it before polishing the visual.</div></div>
+  </div>
+            </section>
+
+            <section class="chapter-block grid-2">
+              <div class="panel">
+                <p class="label">Accessibility checks</p>
+                <ul>
+                  <li>Do not rely on color alone for meaning.</li>
+                  <li>Write a useful title and description for handoff.</li>
+                  <li>Keep the chart understandable before hover.</li>
+                  <li>Use table fallback where precision matters.</li>
+                </ul>
+              </div>
+              <div class="callout">
+                <p class="label">State guidance</p>
+                <p>If map geometry is unavailable, show the table fallback first rather than an empty map shell.</p>
+              </div>
+            </section>
+          </article>
+        </div>
+      </section>
+      <section class="chapter" id="pointer-scale" style="--accent:#16a34a">
+        <div class="chapter-shell">
+          <aside class="chapter-side">
+            <span class="chapter-number">08</span>
+            <p class="eyebrow">Banded score scale</p>
+            <h2>Pointer Scale</h2>
+            <p>Place one value on named bands.</p>
+            <div class="chapter-links">
+              <a href="#pointer-scale-overview">Overview</a>
+              <a href="#pointer-scale-variants">Variants</a>
+              <a href="#pointer-scale-questions">Questions</a>
+              <a href="#pointer-scale-mistakes">Mistakes</a>
+            </div>
+          </aside>
+          <article class="chapter-main">
+            <section id="pointer-scale-overview" class="chapter-panel chapter-hero">
+              <div>
+                <p class="label">PointerScale</p>
+                <h3>What this chart is for</h3>
+                <p class="lede">Use a pointer scale when one value needs to sit on a labeled range. It is strongest when the reader needs to understand the zone, not just the number.</p>
+                <div class="callout">
+                  <p class="label">How readers decode it</p>
+                  <p>Readers read the pointer position and band meaning together. The band labels are as important as the value.</p>
+                </div>
+              </div>
+              <div class="chart-plate chart-plate--placeholder">
+  <figure class="chart-figure-placeholder">
+    <div class="chart-figure-placeholder__frame" role="img" aria-labelledby="illust-ph-pointer-scale-chart">
+      <span id="illust-ph-pointer-scale-chart" class="visually-hidden">Pointer Scale illustration — image to be added</span>
+      <span class="chart-figure-placeholder__kicker" aria-hidden="true">Image placeholder</span>
+      <span class="chart-figure-placeholder__path" aria-hidden="true"><code>../assets/chapter-previews/pointer-scale-chart.png</code></span>
+    </div>
+  </figure>
+</div>
+            </section>
+
+            <section class="grid-2 chapter-block">
+              <div class="panel verdict-do"><p class="label">Use when</p><ul><li>Risk or health scores</li><li>Current value versus target</li><li>Named bands</li><li>Compact status cards</li></ul></div>
+              <div class="panel verdict-dont"><p class="label">Avoid when</p><ul><li>Time-series movement</li><li>More than five bands</li><li>Values without meaningful min and max</li><li>Color bands without text labels</li></ul></div>
+            </section>
+
+            <section id="pointer-scale-variants" class="chapter-block">
+              <p class="eyebrow">Variants</p>
+              <h3>Pick the version that matches the question</h3>
+              <div class="data-table" style="--table-cols:minmax(180px,.7fr) minmax(320px,1.1fr) minmax(320px,1fr)">
+    <div class="data-row header"><div>Variant</div><div>Use it for</div><div>Design note</div></div>
+    <div class="data-row"><div>Value and target</div><div>Current versus desired position.</div><div>Keep markers visually distinct.</div></div><div class="data-row"><div>Needle only</div><div>Simple status.</div><div>Use when target is not part of the story.</div></div><div class="data-row"><div>Custom min and max</div><div>Non-percentage scales.</div><div>Label units clearly.</div></div><div class="data-row"><div>Bespoke band widths</div><div>Unequal ranges.</div><div>Explain unequal thresholds.</div></div><div class="data-row"><div>Embedded track</div><div>Compact cards.</div><div>Keep labels visible or nearby.</div></div>
+  </div>
+            </section>
+
+            <section class="chapter-block">
+              <p class="eyebrow">Anatomy</p>
+              <h3>Parts designers should understand</h3>
+              <div class="data-table" style="--table-cols:minmax(180px,.7fr) minmax(320px,1.1fr) minmax(320px,1fr)">
+    <div class="data-row header"><div>Part</div><div>What it does</div><div>Designer responsibility</div></div>
+    <div class="data-row"><div>Track</div><div>Represents the full range.</div><div>Define min and max clearly.</div></div><div class="data-row"><div>Bands</div><div>Divide the range into named zones.</div><div>Label zones in words, not only colors.</div></div><div class="data-row"><div>Pointer</div><div>Shows current value.</div><div>Keep it easy to locate.</div></div><div class="data-row"><div>Target marker</div><div>Optional goal or comparison point.</div><div>Avoid overlap with the pointer.</div></div><div class="data-row"><div>Band labels</div><div>Make color zones understandable.</div><div>Never rely on hue alone.</div></div>
+  </div>
+            </section>
+
+            <section id="pointer-scale-questions" class="chapter-block grid-2">
+              <div class="panel">
+                <p class="label">Questions before designing</p>
+                <ol><li>What do the bands mean?</li><li>Are thresholds fixed by product logic?</li><li>Is the target required?</li><li>Would a half donut over-emphasize the number?</li></ol>
+              </div>
+              <div class="panel">
+                <p class="label">Natural product use cases</p>
+                <ul><li>Risk band</li><li>Readiness score</li><li>Quality score</li><li>Current versus target</li></ul>
+              </div>
+            </section>
+
+            <section id="pointer-scale-mistakes" class="chapter-block">
+              <p class="eyebrow">Common mistakes</p>
+              <h3>What makes this chart misleading</h3>
+              <div class="data-table" style="--table-cols:minmax(160px,.55fr) minmax(360px,1.2fr) minmax(260px,.9fr)">
+    <div class="data-row header"><div>Issue</div><div>Why it matters</div><div>How to handle it</div></div>
+    <div class="data-row"><div>Watch-out 1</div><div>Using color bands without labels</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 2</div><div>Adding too many bands</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 3</div><div>Overlapping target and value</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 4</div><div>Using meaningless min/max</div><div>Resolve it before polishing the visual.</div></div>
+  </div>
+            </section>
+
+            <section class="chapter-block grid-2">
+              <div class="panel">
+                <p class="label">Accessibility checks</p>
+                <ul>
+                  <li>Do not rely on color alone for meaning.</li>
+                  <li>Write a useful title and description for handoff.</li>
+                  <li>Keep the chart understandable before hover.</li>
+                  <li>Use table fallback where precision matters.</li>
+                </ul>
+              </div>
+              <div class="callout">
+                <p class="label">State guidance</p>
+                <p>If thresholds are missing, do not render colored bands. Use a neutral unavailable state or a simple numeric display.</p>
+              </div>
+            </section>
+          </article>
+        </div>
+      </section>
+      <section class="chapter" id="sankey" style="--accent:#dc2626">
+        <div class="chapter-shell">
+          <aside class="chapter-side">
+            <span class="chapter-number">09</span>
+            <p class="eyebrow">Flow and drop-off</p>
+            <h2>Sankey Chart</h2>
+            <p>Explain movement between stages.</p>
+            <div class="chapter-links">
+              <a href="#sankey-overview">Overview</a>
+              <a href="#sankey-variants">Variants</a>
+              <a href="#sankey-questions">Questions</a>
+              <a href="#sankey-mistakes">Mistakes</a>
+            </div>
+          </aside>
+          <article class="chapter-main">
+            <section id="sankey-overview" class="chapter-panel chapter-hero">
+              <div>
+                <p class="label">SankeyChart</p>
+                <h3>What this chart is for</h3>
+                <p class="lede">Use a Sankey chart when the story is movement, split, merge, or drop-off between stages, sources, destinations, or categories.</p>
+                <div class="callout">
+                  <p class="label">How readers decode it</p>
+                  <p>Readers follow ribbon width from source to target. If there are too many nodes, the diagram turns into a puzzle instead of an explanation.</p>
+                </div>
+              </div>
+              <div class="chart-plate chart-plate--placeholder">
+  <figure class="chart-figure-placeholder">
+    <div class="chart-figure-placeholder__frame" role="img" aria-labelledby="illust-ph-sankey-chart">
+      <span id="illust-ph-sankey-chart" class="visually-hidden">Sankey Chart illustration — image to be added</span>
+      <span class="chart-figure-placeholder__kicker" aria-hidden="true">Image placeholder</span>
+      <span class="chart-figure-placeholder__path" aria-hidden="true"><code>../assets/chapter-previews/sankey-chart.png</code></span>
+    </div>
+  </figure>
+</div>
+            </section>
+
+            <section class="grid-2 chapter-block">
+              <div class="panel verdict-do"><p class="label">Use when</p><ul><li>Pathways between stages</li><li>Source to destination flows</li><li>Drop-off or leakage</li><li>Showing how totals split and recombine</li></ul></div>
+              <div class="panel verdict-dont"><p class="label">Avoid when</p><ul><li>Simple rankings</li><li>Tiny flows that create visual noise</li><li>Too many nodes in one view</li><li>Decorative colors that hide the main path</li></ul></div>
+            </section>
+
+            <section id="sankey-variants" class="chapter-block">
+              <p class="eyebrow">Variants</p>
+              <h3>Pick the version that matches the question</h3>
+              <div class="data-table" style="--table-cols:minmax(180px,.7fr) minmax(320px,1.1fr) minmax(320px,1fr)">
+    <div class="data-row header"><div>Variant</div><div>Use it for</div><div>Design note</div></div>
+    <div class="data-row"><div>Source-colored links</div><div>Following where each source goes.</div><div>Use when source identity matters.</div></div><div class="data-row"><div>Target-colored links</div><div>Understanding destination mix.</div><div>Use when outcomes matter.</div></div><div class="data-row"><div>Highlighted path</div><div>Inspection and storytelling.</div><div>Dim inactive links enough to reduce noise.</div></div><div class="data-row"><div>Compact flow</div><div>Small number of stages.</div><div>Keep labels short.</div></div><div class="data-row"><div>Deterministic layout</div><div>Repeatable review and handoff.</div><div>Avoid manual rearrangement that cannot ship.</div></div>
+  </div>
+            </section>
+
+            <section class="chapter-block">
+              <p class="eyebrow">Anatomy</p>
+              <h3>Parts designers should understand</h3>
+              <div class="data-table" style="--table-cols:minmax(180px,.7fr) minmax(320px,1.1fr) minmax(320px,1fr)">
+    <div class="data-row header"><div>Part</div><div>What it does</div><div>Designer responsibility</div></div>
+    <div class="data-row"><div>Source node</div><div>Where a flow begins.</div><div>Name clearly.</div></div><div class="data-row"><div>Target node</div><div>Where a flow ends.</div><div>Name clearly.</div></div><div class="data-row"><div>Link ribbon</div><div>Width encodes volume between nodes.</div><div>Make main flow easy to follow.</div></div><div class="data-row"><div>Node label</div><div>Names each stage or category.</div><div>Keep labels short.</div></div><div class="data-row"><div>Highlight state</div><div>Focuses one path while dimming the rest.</div><div>Use for inspection, not decoration.</div></div>
+  </div>
+            </section>
+
+            <section id="sankey-questions" class="chapter-block grid-2">
+              <div class="panel">
+                <p class="label">Questions before designing</p>
+                <ol><li>What is moving?</li><li>What are the stages?</li><li>Where is the biggest split or drop-off?</li><li>Can the story be simpler as a bar chart?</li></ol>
+              </div>
+              <div class="panel">
+                <p class="label">Natural product use cases</p>
+                <ul><li>Lead source to outcome</li><li>Ticket routing</li><li>Patient journey stages</li><li>Budget flow</li></ul>
+              </div>
+            </section>
+
+            <section id="sankey-mistakes" class="chapter-block">
+              <p class="eyebrow">Common mistakes</p>
+              <h3>What makes this chart misleading</h3>
+              <div class="data-table" style="--table-cols:minmax(160px,.55fr) minmax(360px,1.2fr) minmax(260px,.9fr)">
+    <div class="data-row header"><div>Issue</div><div>Why it matters</div><div>How to handle it</div></div>
+    <div class="data-row"><div>Watch-out 1</div><div>Using too many nodes</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 2</div><div>Keeping tiny flows that add no insight</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 3</div><div>Using decorative color</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 4</div><div>Skipping a short text takeaway</div><div>Resolve it before polishing the visual.</div></div>
+  </div>
+            </section>
+
+            <section class="chapter-block grid-2">
+              <div class="panel">
+                <p class="label">Accessibility checks</p>
+                <ul>
+                  <li>Do not rely on color alone for meaning.</li>
+                  <li>Write a useful title and description for handoff.</li>
+                  <li>Keep the chart understandable before hover.</li>
+                  <li>Use table fallback where precision matters.</li>
+                </ul>
+              </div>
+              <div class="callout">
+                <p class="label">State guidance</p>
+                <p>If flow values are incomplete, label the missing stage or show a table summary; a partial Sankey can imply false totals.</p>
+              </div>
+            </section>
+          </article>
+        </div>
+      </section>
+      <section class="chapter" id="sparkline" style="--accent:#0d7a96">
+        <div class="chapter-shell">
+          <aside class="chapter-side">
+            <span class="chapter-number">10</span>
+            <p class="eyebrow">Tiny trend cue</p>
+            <h2>Sparkline</h2>
+            <p>Add compact trend memory beside a value.</p>
+            <div class="chapter-links">
+              <a href="#sparkline-overview">Overview</a>
+              <a href="#sparkline-variants">Variants</a>
+              <a href="#sparkline-questions">Questions</a>
+              <a href="#sparkline-mistakes">Mistakes</a>
+            </div>
+          </aside>
+          <article class="chapter-main">
+            <section id="sparkline-overview" class="chapter-panel chapter-hero">
+              <div>
+                <p class="label">Sparkline</p>
+                <h3>What this chart is for</h3>
+                <p class="lede">Use a sparkline when trend is supporting context inside a dense UI. It should sit beside a stronger number and never carry the whole analysis alone.</p>
+                <div class="callout">
+                  <p class="label">How readers decode it</p>
+                  <p>Readers use a sparkline as a quick directional cue. It answers “what has been happening?” but not “what exactly happened at each point?”</p>
+                </div>
+              </div>
+              <div class="chart-plate chart-plate--placeholder">
+  <figure class="chart-figure-placeholder">
+    <div class="chart-figure-placeholder__frame" role="img" aria-labelledby="illust-ph-sparkline-chart">
+      <span id="illust-ph-sparkline-chart" class="visually-hidden">Sparkline illustration — image to be added</span>
+      <span class="chart-figure-placeholder__kicker" aria-hidden="true">Image placeholder</span>
+      <span class="chart-figure-placeholder__path" aria-hidden="true"><code>../assets/chapter-previews/sparkline-chart.png</code></span>
+    </div>
+  </figure>
+</div>
+            </section>
+
+            <section class="grid-2 chapter-block">
+              <div class="panel verdict-do"><p class="label">Use when</p><ul><li>KPI cards</li><li>Tables and lists</li><li>Compact trend previews</li><li>Showing direction without full axes</li></ul></div>
+              <div class="panel verdict-dont"><p class="label">Avoid when</p><ul><li>Precise reading tasks</li><li>Standalone analysis</li><li>Many competing series</li><li>Situations where labels and axes are required</li></ul></div>
+            </section>
+
+            <section id="sparkline-variants" class="chapter-block">
+              <p class="eyebrow">Variants</p>
+              <h3>Pick the version that matches the question</h3>
+              <div class="data-table" style="--table-cols:minmax(180px,.7fr) minmax(320px,1.1fr) minmax(320px,1fr)">
+    <div class="data-row header"><div>Variant</div><div>Use it for</div><div>Design note</div></div>
+    <div class="data-row"><div>Line sparkline</div><div>Default compact trend.</div><div>Keep stroke clean and uncluttered.</div></div><div class="data-row"><div>Area sparkline</div><div>Trend needs more visual weight.</div><div>Avoid in dense tables.</div></div><div class="data-row"><div>Sentiment color</div><div>Positive, negative, or neutral cue.</div><div>Only use if direction has clear meaning.</div></div><div class="data-row"><div>Table cell sparkline</div><div>Scanning many rows.</div><div>Keep dimensions consistent across rows.</div></div><div class="data-row"><div>Downsampled dense trend</div><div>Long histories in small width.</div><div>Preserve first and last point.</div></div>
+  </div>
+            </section>
+
+            <section class="chapter-block">
+              <p class="eyebrow">Anatomy</p>
+              <h3>Parts designers should understand</h3>
+              <div class="data-table" style="--table-cols:minmax(180px,.7fr) minmax(320px,1.1fr) minmax(320px,1fr)">
+    <div class="data-row header"><div>Part</div><div>What it does</div><div>Designer responsibility</div></div>
+    <div class="data-row"><div>Tiny line</div><div>Shows direction and rough shape.</div><div>Do not ask it to carry precise values.</div></div><div class="data-row"><div>Container value</div><div>Adjacent KPI or table value carries exact number.</div><div>Pair with a clear number.</div></div><div class="data-row"><div>Start and end shape</div><div>Shows improvement, decline, or flatness.</div><div>Use consistent time windows.</div></div><div class="data-row"><div>Sentiment color</div><div>Optional positive or negative cue.</div><div>Use only when meaning is obvious.</div></div><div class="data-row"><div>Hidden detail</div><div>Tooltip or expanded chart can provide precision.</div><div>Use LineChart for real analysis.</div></div>
+  </div>
+            </section>
+
+            <section id="sparkline-questions" class="chapter-block grid-2">
+              <div class="panel">
+                <p class="label">Questions before designing</p>
+                <ol><li>What number sits beside the sparkline?</li><li>Does up mean good or bad?</li><li>Is detail available elsewhere?</li><li>Should all rows share the same time window?</li></ol>
+              </div>
+              <div class="panel">
+                <p class="label">Natural product use cases</p>
+                <ul><li>KPI tile trend</li><li>Metric table row</li><li>List item performance</li><li>Compact health of a module</li></ul>
+              </div>
+            </section>
+
+            <section id="sparkline-mistakes" class="chapter-block">
+              <p class="eyebrow">Common mistakes</p>
+              <h3>What makes this chart misleading</h3>
+              <div class="data-table" style="--table-cols:minmax(160px,.55fr) minmax(360px,1.2fr) minmax(260px,.9fr)">
+    <div class="data-row header"><div>Issue</div><div>Why it matters</div><div>How to handle it</div></div>
+    <div class="data-row"><div>Watch-out 1</div><div>Using it without a nearby value</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 2</div><div>Using different time windows across rows</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 3</div><div>Adding too much color in a dense table</div><div>Resolve it before polishing the visual.</div></div><div class="data-row"><div>Watch-out 4</div><div>Replacing a LineChart with a sparkline</div><div>Resolve it before polishing the visual.</div></div>
+  </div>
+            </section>
+
+            <section class="chapter-block grid-2">
+              <div class="panel">
+                <p class="label">Accessibility checks</p>
+                <ul>
+                  <li>Do not rely on color alone for meaning.</li>
+                  <li>Write a useful title and description for handoff.</li>
+                  <li>Keep the chart understandable before hover.</li>
+                  <li>Use table fallback where precision matters.</li>
+                </ul>
+              </div>
+              <div class="callout">
+                <p class="label">State guidance</p>
+                <p>If history is missing, show the current value without a sparkline rather than drawing a flat fake trend.</p>
+              </div>
+            </section>
+          </article>
+        </div>
+      </section>
+    <section class="section" id="color-system"><div class="inner"><p class="eyebrow">Shared color logic</p><h2>Use tokens, then add meaning</h2><p class="lede">The library uses categorical slots, sequential ramps, sentiment colors, pattern fills, and accessible outlines. Designers should choose intent first: category, order, status, or interaction.</p><div class="swatches"><div class="swatch"><span style="--c:#0d7a96"></span><strong>Ax 1</strong><br><code>#0d7a96</code></div><div class="swatch"><span style="--c:#2563eb"></span><strong>Ax 2</strong><br><code>#2563eb</code></div><div class="swatch"><span style="--c:#16a34a"></span><strong>Ax 3</strong><br><code>#16a34a</code></div><div class="swatch"><span style="--c:#d97706"></span><strong>Ax 4</strong><br><code>#d97706</code></div><div class="swatch"><span style="--c:#7c3aed"></span><strong>Ax 5</strong><br><code>#7c3aed</code></div><div class="swatch"><span style="--c:#dc2626"></span><strong>Ax 6</strong><br><code>#dc2626</code></div></div><div class="grid-3 chapter-block"><div class="panel"><p class="label">Category</p><p>Separate unrelated groups or series. Keep the number of visible colors low enough to remember.</p></div><div class="panel"><p class="label">Sequence</p><p>Show ordered magnitude or range intensity. Pair color with labels or axes.</p></div><div class="panel"><p class="label">Status</p><p>Use sentiment color only when product meaning is explicit and never as the only cue.</p></div></div></div></section>
+    <section class="section" id="handoff"><div class="inner"><p class="eyebrow">Implementation handoff</p><h2>Keep handoff useful, but keep guidance designer-first</h2><p class="lede">The handoff should document chart family, story intent, data shape, labels, states, and accessibility copy. For deeper technical background, use the repo and Storybook.</p><div class="code-block"><pre>npm i @atulya_26/charting-library
+
+import '@atulya_26/charting-library/styles.css';
+import { BarChart, LineChart, DonutChart } from '@atulya_26/charting-library';</pre></div><div class="grid-2 chapter-block"><article class="panel"><p class="label">GitHub repo</p><p><a href="https://github.com/Atulya26/ChartingLibrary">github.com/Atulya26/ChartingLibrary</a></p></article><article class="panel"><p class="label">Live Storybook</p><p><a href="https://atulya26.github.io/ChartingLibrary/">atulya26.github.io/ChartingLibrary</a></p></article></div></div></section>
+  </main>
+  <footer class="inner footer">Single-page chart usage guideline aligned to <code>@atulya_26/charting-library</code> and the designer-as-user project framing.</footer>
+  <script>
+    (function(){var input=document.getElementById('chapter-filter');var grid=document.getElementById('chapter-card-grid');var status=document.getElementById('chapter-filter-status');if(!input||!grid)return;var cards=grid.querySelectorAll('.chart-card');function run(){var q=(input.value||'').trim().toLowerCase();var n=0;cards.forEach(function(card){var hay=(card.getAttribute('data-search')||'')+' '+(card.textContent||'');hay=hay.toLowerCase();var show=!q||hay.indexOf(q)!==-1;card.hidden=!show;if(show)n++;});status.textContent=q?'Showing '+n+' of '+cards.length+' chapters.':'';}input.addEventListener('input',run);run();})();
+  </script>
+</body>
+</html>
